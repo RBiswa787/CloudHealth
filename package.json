@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/RBiswa787/CloudHealth/issues"
   },
-  "homepage": "https://github.com/RBiswa787/CloudHealth#readme"
+  "homepage": "https://github.com/RBiswa787/CloudHealth#readme",
+  "dependencies": {
+    "mongoose": "^6.6.1"
+  }
 }
