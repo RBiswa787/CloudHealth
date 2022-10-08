@@ -3,6 +3,8 @@ module.exports = app => {
   
     var router = require("express").Router();
 
+    app.use("/api/user", router);
+
     router.post("/", user.create);
 
     router.get("/", user.findAll);
@@ -11,5 +13,5 @@ module.exports = app => {
 
     router.post("/signout", user.signOut);
   
-    app.use("/api/user", router);
+    
   };

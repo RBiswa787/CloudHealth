@@ -1,13 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
-import RegForm from './components/RegForm';
+import LoginSignUp from './components/LoginSignUp'
 
 
 function App() {
   return (
-    <div className="App">
-      <RegForm></RegForm>
-    </div>
+    <LoginSignUp>
+      
+    </LoginSignUp>
   );
 }
 
