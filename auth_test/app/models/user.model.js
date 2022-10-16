@@ -1,5 +1,5 @@
 module.exports = mongoose => {
-    let schema = mongoose.Schema(
+    var schema = mongoose.Schema(
       {
         username:{
             type: String,
