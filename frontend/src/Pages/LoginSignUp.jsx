@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import {
   Paper,
   makeStyles,
@@ -9,7 +9,6 @@ import {
 import useWindowDimensions from "../Hooks/useWindowDimensions";
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
-import AlertDialogSlide from '../components/prompt'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     width: "35%",
     borderRadius: 30,
     // justifyContent: "center",
-    backgroundColor: "#DFF6FF",
+
     alignItems: "center",
     marginLeft: "5%",
     marginRight: "5%",
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     display: "flex",
     marginTop: "10%",
-      color: "#06283D",
     // fontSize: "100%",
     fontFamily: "Arvo, serif",
     fontSize: "36px",
@@ -57,10 +55,6 @@ const LoginSignUp = () => {
 
   const loginPassInput = useRef(null);
   const signPassInput = useRef(null);
-
-  const [open, setDialogOpen] = useState(false);
-  const [alertTitle, setAlertTitle] = useState("");
-  const [alert, setDialogAlert] = useState("");
 
   const handleLoginUsername = (e) => {
     if (lUserError == true && e.length > 0) {
@@ -118,9 +112,7 @@ const LoginSignUp = () => {
 
         if(res.status != 200){
             loginPassInput.current.value = ""
-            setDialogOpen(true)
-            setAlertTitle("Your credentials did not work")
-            setDialogAlert("Either your username or password is incorrect")
+            alert("Authentication Credentials are not valid")
         }
         else {
             setLoginToken(res.data.access)
@@ -147,7 +139,7 @@ const LoginSignUp = () => {
         method: "POST",
         url: "http://localhost:8686/api/user/signup",
         data: {
-            "username":signUsername,
+            "username":signName,
             "password":signPassword,
             "isDoctor":true
         }
@@ -156,10 +148,8 @@ const LoginSignUp = () => {
             navigate('/doctorNewProfile')
         }
         else{
-            setDialogOpen(true)
-            setAlertTitle("Sorry, that username already exists")
-            setDialogAlert("An account with this username already exists")
             signPassInput.current.value = "";
+            alert(res.data.message)
         }
     });
   };
@@ -190,10 +180,8 @@ const LoginSignUp = () => {
             navigate('/patientNewProfile')
         }
         else{
-            setDialogOpen(true)
-            setAlertTitle("Sorry, that username already exists")
-            setDialogAlert("An account with this username already exists")
             signPassInput.current.value = "";
+            alert(res.data.message)
         }
     });
   };
@@ -203,13 +191,12 @@ const LoginSignUp = () => {
       style={{
         height: height,
         width: width,
-        backgroundColor: "#47B5FF",
+        backgroundColor: "blue",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-        <AlertDialogSlide setOpen={setDialogOpen} open={open} alertTitle={alertTitle} alert={alert}></AlertDialogSlide>
       <Paper className={classes.paper} elevation={20}>
         <Typography className={classes.heading}>LOGIN</Typography>
         <TextField
@@ -255,8 +242,6 @@ const LoginSignUp = () => {
             borderRadius: "25px",
             fontSize: "125%",
             fontFamily: "Arvo",
-              backgroundColor: "#256D85",
-              color: "#DFF6FF"
           }}
           onClick={LoginButton}
         >
@@ -320,11 +305,10 @@ const LoginSignUp = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: "11%",
-            height: "8%",
-            width: "68%",
+            marginTop: "11.5%",
+            height: "7.5%",
+            width: "65%",
             borderRadius: "25px",
-              backgroundColor: "#256D85"
           }}
         >
           <Button
@@ -333,13 +317,12 @@ const LoginSignUp = () => {
               width: "50%",
               height: "100%",
               borderRadius: "25px 0 0 25px",
-              fontSize: "110%",
+              fontSize: "100%",
               fontFamily: "Arvo",
-                color: "#DFF6FF"
             }}
             onClick={signDoctorButton}
           >
-            AS DOCTOR
+            SIGN UP AS DOCTOR
           </Button>
           <Button
             variant="outlined"
@@ -347,13 +330,12 @@ const LoginSignUp = () => {
               width: "50%",
               height: "100%",
               borderRadius: "0 25px 25px 0",
-              fontSize: "110%",
+              fontSize: "100%",
               fontFamily: "Arvo",
-                color: "#DFF6FF"
             }}
             onClick={signPatientButton}
           >
-            AS PATIENT
+            SIGN UP AS PATIENT
           </Button>
         </Paper>
       </Paper>

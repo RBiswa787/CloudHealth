@@ -42,7 +42,7 @@ exports.create = (req,res) => {
                 });
             }
             else{
-                res.statusCode = 203;
+                res.statusCode = 400;
                 res.send({ message: "User already exists with username " + user.username});
             }
         }
@@ -72,10 +72,8 @@ exports.findAll = (req, res) => {
     const [credusername, credpassword] = credentials.split(':');
     User.findOne({username: credusername})
       .then(data => {
-        if (!data) {
-            res.statusCode = 203;
-            return res.send({message: "Not found User with username " + credusername, access: null});
-        }
+        if (!data)
+          return res.send({ message: "Not found User with username " + credusername,access:null });
         else{
             if(data.password == credpassword){
                 const access_token = makeToken(20);
