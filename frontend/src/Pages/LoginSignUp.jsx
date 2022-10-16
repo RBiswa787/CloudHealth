@@ -55,9 +55,6 @@ const LoginSignUp = () => {
   const [sNameError, setsNameError] = useState(false);
   const [sPassError, setsPassError] = useState(false);
 
-  const loginPassInput = useRef(null);
-  const signPassInput = useRef(null);
-
   const [open, setDialogOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alert, setDialogAlert] = useState("");
@@ -117,7 +114,7 @@ const LoginSignUp = () => {
     }).then((res) => {
 
         if(res.status != 200){
-            loginPassInput.current.value = ""
+            setLoginPassword("")
             setDialogOpen(true)
             setAlertTitle("Your credentials did not work")
             setDialogAlert("Either your username or password is incorrect")
@@ -156,10 +153,10 @@ const LoginSignUp = () => {
             navigate('/doctorNewProfile')
         }
         else{
+            setSignPassword("")
             setDialogOpen(true)
             setAlertTitle("Sorry, that username already exists")
             setDialogAlert("An account with this username already exists")
-            signPassInput.current.value = "";
         }
     });
   };
@@ -190,10 +187,10 @@ const LoginSignUp = () => {
             navigate('/patientNewProfile')
         }
         else{
+            setSignPassword("")
             setDialogOpen(true)
             setAlertTitle("Sorry, that username already exists")
             setDialogAlert("An account with this username already exists")
-            signPassInput.current.value = "";
         }
     });
   };
@@ -230,7 +227,6 @@ const LoginSignUp = () => {
         />
         <TextField
           id="login-password"
-          inputRef={loginPassInput}
           label="Password"
           error={lPassError}
           variant="standard"
@@ -310,7 +306,6 @@ const LoginSignUp = () => {
             width: "50%",
           }}
           value={signPassword}
-          inputRef={signPassInput}
           onChange={(e) => {
             handleSignPassword(e.target.value);
           }}
