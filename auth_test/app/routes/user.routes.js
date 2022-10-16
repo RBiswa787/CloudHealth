@@ -1,3 +1,4 @@
+const user = require("../controllers/user.controller");
 module.exports = app => {
     const user = require("../controllers/user.controller.js");
   
@@ -5,9 +6,9 @@ module.exports = app => {
 
     app.use("/api/user", router);
 
-    router.post("/", user.create);
-
     router.get("/", user.findAll);
+
+    router.post("/signup", user.create);
 
     router.get("/signin", user.findOne);
 
