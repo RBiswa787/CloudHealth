@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import {
   Paper,
   makeStyles,
@@ -7,6 +7,8 @@ import {
   Button,
 } from "@material-ui/core";
 import useWindowDimensions from "../Hooks/useWindowDimensions";
+import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,100 +33,158 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function LoginSignUp() {
+const LoginSignUp = () => {  
+
   const classes = useStyles();
+  const navigate = useNavigate();
   const { height, width } = useWindowDimensions();
+
+  const [loginToken, setLoginToken] = useState("");
+
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [signUsername, setSignUsername] = useState("");
   const [signName, setSignName] = useState("");
   const [signPassword, setSignPassword] = useState("");
-  
-  const[luserError, setlUserError] = useState(false);
-  const[lpassError, setlPassError] = useState(false);
-  const[suserError, setsUserError] = useState(false);
-  const[snameError, setsNameError] = useState(false);
-  const[spassError, setsPassError] = useState(false);
+
+  const [lUserError, setlUserError] = useState(false);
+  const [lPassError, setlPassError] = useState(false);
+  const [sUserError, setsUserError] = useState(false);
+  const [sNameError, setsNameError] = useState(false);
+  const [sPassError, setsPassError] = useState(false);
+
+  const loginPassInput = useRef(null);
+  const signPassInput = useRef(null);
 
   const handleLoginUsername = (e) => {
-    if(luserError == true && e.length > 0){
-        setlUserError(false);
+    if (lUserError == true && e.length > 0) {
+      setlUserError(false);
     }
     setLoginUsername(e);
-  }
+  };
 
   const handleLoginPassword = (e) => {
-    if(lpassError == true && e.length > 0){
-        setlPassError(false);
+    if (lPassError == true && e.length > 0) {
+      setlPassError(false);
     }
     setLoginPassword(e);
-  }     
+  };
 
   const handleSignName = (e) => {
-    if(snameError == true && e.length > 0){
-        setsNameError(false);
+    if (sNameError == true && e.length > 0) {
+      setsNameError(false);
     }
     setSignName(e);
-  }
+  };
 
   const handleSignUsername = (e) => {
-    if(suserError == true && e.length > 0){
-        setsUserError(false);
+    if (sUserError == true && e.length > 0) {
+      setsUserError(false);
     }
     setSignUsername(e);
-  }
+  };
 
   const handleSignPassword = (e) => {
-    if(spassError == true && e.length > 0){
-        setsPassError(false);
+    if (sPassError == true && e.length > 0) {
+      setsPassError(false);
     }
     setSignPassword(e);
-  }     
+  };
 
-  const loginButton = () => {
-    if(loginUsername.length == 0){
-        console.log("Here");
-        setlUserError(true);
-        return;
+  const LoginButton = () => {
+    if (loginUsername.length == 0) {
+      console.log("Here");
+      setlUserError(true);
+      return;
     }
-    if(loginPassword.length == 0){
-        setlPassError(true);
-        return
+    if (loginPassword.length == 0) {
+      setlPassError(true);
+      return;
     }
-    return
-  }
+    axios({
+        method: "GET",
+        url: "http://localhost:8686/api/user/signin",
+        auth: {
+            username: loginUsername,
+            password: loginPassword
+        }
+    }).then((res) => {
+
+        if(res.status != 200){
+            loginPassInput.current.value = ""
+            alert("Authentication Credentials are not valid")
+        }
+        else {
+            setLoginToken(res.data.access)
+            navigate('/dashboard')
+        }
+    });
+  };
 
   const signDoctorButton = () => {
-    if(signName.length == 0){
-        setsNameError(true);
-        return;
+    if (signName.length == 0) {
+      setsNameError(true);
+      return;
     }
-    if(signUsername.length == 0){
-        setsUserError(true);
-        return;
+    if (signUsername.length == 0) {
+      setsUserError(true);
+      return;
     }
-    if(signPassword.length == 0){
-        setsPassError(true);
-        return;
+    if (signPassword.length == 0) {
+      setsPassError(true);
+      return;
     }
-    return;
-  }
+
+    axios({
+        method: "POST",
+        url: "http://localhost:8686/api/user/signup",
+        data: {
+            "username":signName,
+            "password":signPassword,
+            "isDoctor":true
+        }
+    }).then((res) => {
+        if(res.status == 200){
+            navigate('/doctorNewProfile')
+        }
+        else{
+            signPassInput.current.value = "";
+            alert(res.data.message)
+        }
+    });
+  };
 
   const signPatientButton = () => {
-    if(signName.length == 0){
-        setsNameError(true);
-        return;
+    if (signName.length == 0) {
+      setsNameError(true);
+      return;
     }
-    if(signUsername.length == 0){
-        setsUserError(true);
-        return;
+    if (signUsername.length == 0) {
+      setsUserError(true);
+      return;
     }
-    if(signPassword.length == 0){
-        setsPassError(true);
-        return;
+    if (signPassword.length == 0) {
+      setsPassError(true);
+      return;
     }
-    return;
-  }
+    axios({
+        method: "POST",
+        url: "http://localhost:8686/api/user/signup",
+        data: {
+          "username":signUsername,
+          "password":signPassword,
+          "isDoctor":false
+        }
+    }).then((res) => {
+        if(res.status == 200){
+            navigate('/patientNewProfile')
+        }
+        else{
+            signPassInput.current.value = "";
+            alert(res.data.message)
+        }
+    });
+  };
 
   return (
     <div
@@ -140,7 +200,7 @@ function LoginSignUp() {
       <Paper className={classes.paper} elevation={20}>
         <Typography className={classes.heading}>LOGIN</Typography>
         <TextField
-          error={luserError}
+          error={lUserError}
           id="login-username"
           label="Username"
           variant="standard"
@@ -151,12 +211,15 @@ function LoginSignUp() {
             width: "50%",
           }}
           value={loginUsername}
-          onChange = {(e)=>{handleLoginUsername(e.target.value)}}
+          onChange={(e) => {
+            handleLoginUsername(e.target.value);
+          }}
         />
         <TextField
           id="login-password"
+          inputRef={loginPassInput}
           label="Password"
-          error={lpassError}
+          error={lPassError}
           variant="standard"
           type="password"
           style={{
@@ -166,7 +229,9 @@ function LoginSignUp() {
             width: "50%",
           }}
           value={loginPassword}
-          onChange = {(e)=>{handleLoginPassword(e.target.value)}}
+          onChange={(e) => {
+            handleLoginPassword(e.target.value);
+          }}
         />
         <Button
           variant="outlined"
@@ -176,9 +241,9 @@ function LoginSignUp() {
             height: "7.5%",
             borderRadius: "25px",
             fontSize: "125%",
-            fontFamily: "Arvo"
+            fontFamily: "Arvo",
           }}
-          onClick={loginButton}
+          onClick={LoginButton}
         >
           LOGIN
         </Button>
@@ -189,7 +254,7 @@ function LoginSignUp() {
           id="sign-name"
           label="Name"
           variant="standard"
-          error = {snameError}
+          error={sNameError}
           style={{
             display: "flex",
             marginTop: "15%",
@@ -197,13 +262,15 @@ function LoginSignUp() {
             width: "50%",
           }}
           value={signName}
-          onChange = {(e)=>{handleSignName(e.target.value)}}
+          onChange={(e) => {
+            handleSignName(e.target.value);
+          }}
         />
         <TextField
           id="sign-username"
           label="Username"
           variant="standard"
-          error={suserError}
+          error={sUserError}
           style={{
             display: "flex",
             marginTop: "7.5%",
@@ -211,14 +278,16 @@ function LoginSignUp() {
             width: "50%",
           }}
           value={signUsername}
-          onChange = {(e)=>{handleSignUsername(e.target.value)}}
+          onChange={(e) => {
+            handleSignUsername(e.target.value);
+          }}
         />
         <TextField
           id="sign-password"
           label="Password"
           variant="standard"
           type="password"
-          error={spassError}
+          error={sPassError}
           style={{
             display: "flex",
             marginTop: "7.5%",
@@ -226,7 +295,10 @@ function LoginSignUp() {
             width: "50%",
           }}
           value={signPassword}
-          onChange = {(e)=>{handleSignPassword(e.target.value)}}
+          inputRef={signPassInput}
+          onChange={(e) => {
+            handleSignPassword(e.target.value);
+          }}
         />
         <Paper
           style={{
@@ -241,13 +313,12 @@ function LoginSignUp() {
         >
           <Button
             variant="outlined"
-            
             style={{
               width: "50%",
               height: "100%",
               borderRadius: "25px 0 0 25px",
               fontSize: "100%",
-              fontFamily: "Arvo"
+              fontFamily: "Arvo",
             }}
             onClick={signDoctorButton}
           >
@@ -260,7 +331,7 @@ function LoginSignUp() {
               height: "100%",
               borderRadius: "0 25px 25px 0",
               fontSize: "100%",
-              fontFamily: "Arvo"
+              fontFamily: "Arvo",
             }}
             onClick={signPatientButton}
           >
@@ -270,6 +341,6 @@ function LoginSignUp() {
       </Paper>
     </div>
   );
-}
+};
 
 export default LoginSignUp;
