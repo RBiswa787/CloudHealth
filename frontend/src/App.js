@@ -1,13 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
-import RegForm from './components/RegForm';
-
+import LoginSignUp from './Pages/LoginSignUp'
+import PatientProfileCreation from './Pages/PatientProfileCreation'
+import DoctorProfileCreation from './Pages/DoctorProfileCreation'
+import Dashboard from './Pages/Dashboard'
+import { Routes, Route } from "react-router-dom"
 
 function App() {
   return (
-    <div className="App">
-      <RegForm></RegForm>
-    </div>
+      <Routes>
+          <Route path={"/"} element={<LoginSignUp></LoginSignUp>} />
+          <Route path={"/doctorNewProfile"} element={<DoctorProfileCreation></DoctorProfileCreation>} />
+          <Route path={"/patientNewProfile"} element={<PatientProfileCreation></PatientProfileCreation>} />
+          <Route path={"/dashboard"} element={<Dashboard></Dashboard>} />
+      </Routes>
   );
 }
 
