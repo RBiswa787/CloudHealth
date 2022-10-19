@@ -1,4 +1,4 @@
-const { mongoose } = require("../models");
+// const { mongoose } = require("../models");
 const db = require("../models");
 const User = db.user;
 
@@ -77,7 +77,7 @@ exports.findAll = (req, res) => {
             return res.send({message: "Not found User with username " + credusername, access: null});
         }
         else{
-            if(data.password == credpassword){
+            if(data.password === credpassword){
                 const access_token = makeToken(20);
                 User.findOneAndUpdate({username:credusername},{token:access_token})
                 .catch(
@@ -89,7 +89,8 @@ exports.findAll = (req, res) => {
                 return res.send({message: "Found",access:access_token});
             }
             else{
-                return res.send({message: "Found",access:null});
+                res.statusCode = 203
+                return res.send({message: "User found but password incorrect",access:null});
             }
         }
       })
