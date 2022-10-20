@@ -1,15 +1,15 @@
 import { React, useEffect, useState } from "react";
-import Body from "../components/Body";
+import DoctorBody from "../components/DoctorBody";
 import Header from "../components/Header";
 
-const Dashboard = () => {
+const DoctorDashboard = () => {
 
     return (
         <>
         <Header></Header>
-        <Body></Body>
+        <DoctorBody></DoctorBody>
         </>
     )
 }
 
-export default Dashboard
+export default DoctorDashboard
