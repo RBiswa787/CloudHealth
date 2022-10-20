@@ -1,17 +1,16 @@
-const { mongoose } = require("../models");
+// const { mongoose } = require("../models");
 const db = require("../models");
 const User = db.user;
 
 function makeToken(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * 
-  charactersLength));
-   }
-   return result;
-  }
+    let result           = '';
+    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 exports.create = (req,res) => {
     if(!req.body.username){
@@ -21,7 +20,7 @@ exports.create = (req,res) => {
     if(!req.body.password){
         res.statusCode = 400;
         return res.send({message: "Password cannot be empty!"});
-    } 
+    }
     const user = new User({
         username: req.body.username,
         password : req.body.password,
@@ -29,83 +28,85 @@ exports.create = (req,res) => {
     });
 
     User.findOne({username: user.username})
-    .then(
-        data => {
-            if(!data){
-                user
-                .save(function(err,data){
-                    if(err){
-                        res.statusCode = 500;
-                        return res.send({message: err.message});
-                    }
-                    return res.send({message: "Registered Successfully!"});
-                });
+        .then(
+            data => {
+                if(!data){
+                    user
+                        .save(function(err,data){
+                            if(err){
+                                res.statusCode = 500;
+                                return res.send({message: err.message});
+                            }
+                            return res.send({message: "Registered Successfully!"});
+                        });
+                }
+                else{
+                    res.statusCode = 203;
+                    res.send({ message: "User already exists with username " + user.username});
+                }
             }
-            else{
-                res.statusCode = 203;
-                res.send({ message: "User already exists with username " + user.username});
-            }
-        }
-    )
+        )
 };
 
 exports.findAll = (req, res) => {
     const username = req.query.username;
-    var condition = username ? { username: { $regex: new RegExp(username), $options: "i" } } : {};
-  
-    User.find(condition)
-      .then(data => {
-        return res.send(data);
-      })
-      .catch(err => {
-        res.statusCode = 500;
-        return res.send({
-          message:
-            err.message || "Some error occurred while retrieving users."
-        });
-      });
-  };
+    let condition = username ? { username: { $regex: new RegExp(username), $options: "i" } } : {};
 
-  exports.findOne = (req, res) => {
+    User.find(condition)
+        .then(data => {
+            return res.send(data);
+        })
+        .catch(err => {
+            res.statusCode = 500;
+            return res.send({
+                message:
+                    err.message || "Some error occurred while retrieving users."
+            });
+        });
+};
+
+exports.findOne = (req, res) => {
     const base64Credentials = req.headers.authorization.split(' ')[1];
     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
     const [credusername, credpassword] = credentials.split(':');
     User.findOne({username: credusername})
-      .then(data => {
-        if (!data) {
-            res.statusCode = 203;
-            return res.send({message: "Not found User with username " + credusername, access: null});
-        }
-        else{
-            if(data.password == credpassword){
-                const access_token = makeToken(20);
-                User.findOneAndUpdate({username:credusername},{token:access_token})
-                .catch(
-                    err => {
-                        res.statusCode = 500;
-                        return res.send({message: err.message});
-                    }
-                );
-                return res.send({message: "Found",access:access_token});
+        .then(data => {
+            if (!data) {
+                res.statusCode = 203;
+                return res.send({message: "Not found User with username " + credusername, access: null});
             }
             else{
-                return res.send({message: "Found",access:null});
+                if(data.password === credpassword){
+                    const access_token = makeToken(20);
+                    User.findOneAndUpdate({username:credusername},{token:access_token})
+                        .catch(
+                            err => {
+                                res.statusCode = 500;
+                                return res.send({message: err.message});
+                            }
+                        );
+                    res.statusCode = 200;
+                    return res.send({message: "Found",access:access_token});
+                }
+                else{
+                    res.statusCode = 203;
+                    return res.send({message: "User found but password incorrect", access:null});
+                }
             }
-        }
-      })
-      .catch(err => {
-        res.statusCode = 500;
-        res.send({ message: err.message});
-      });
-  };
+        })
+        .catch(err => {
+            res.statusCode = 500;
+            res.send({ message: err.message});
+        });
+};
 
 exports.signOut = (req,res) => {
     User.findOneAndUpdate({username:req.body.username},{token:null})
-    .then(res.send({message: "Successfully signed out!"}))
-                .catch(
-                    err => {
-                        res.statusCode = 500;
-                        return res.send({message: err.message});
-                    }
+        .then(res.send({message: "Successfully signed out!"}))
+        .catch(
+            err => {
+                res.statusCode = 500;
+                return res.send({message: err.message});
+            }
         );
 };
