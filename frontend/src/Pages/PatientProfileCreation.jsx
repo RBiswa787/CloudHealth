@@ -66,6 +66,10 @@ const PatientProfileCreation = () => {
         setContact(e);
     }
 
+    const redirect = (e) => {
+        navigate('/dashboard');
+    }
+
     return <div style={{
         height: height,
         width: width,
@@ -196,8 +200,9 @@ const PatientProfileCreation = () => {
                     fontSize: "125%",
                     fontFamily: "Arvo",
                     backgroundColor: "#256D85",
-                    color: "#DFF6FF"
+                    color: "#DFF6FF",
                 }}
+                onClick={redirect}
                 // onClick={LoginButton}
             >
                 SUBMIT
