@@ -12,10 +12,10 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
-const db = require("./app/models");
+//const db = require("./app/models");
 
-console.log(db.url);
-
+//console.log(db.url);
+/*
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -31,11 +31,13 @@ db.mongoose
 
 require("./app/routes/user.routes")(app);
 
-app.get('/',(req,res) => {
-    res.send("Welcome to auth-test!");
+ */
+
+app.get('/core',(req,res) => {
+    res.send("Welcome to core-service!");
 });
 
-const PORT = process.env.NODE_AUTH_DOCKER_PORT;
+const PORT = 7000;
 
 app.listen(PORT,() => {
     console.log(`Server listening at port ${PORT}`);
