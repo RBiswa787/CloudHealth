@@ -6,8 +6,6 @@ module.exports = app => {
 
     app.use("/api/user", router);
 
-    router.get("/", user.findAll);
-
     router.post("/create", user.create);
 
     router.post("/updatetoken", user.updateToken);
