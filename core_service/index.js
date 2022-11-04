@@ -25,18 +25,18 @@ db.mongoose
     console.log("Connected to the database!");
   })
   .catch(err => {
-    console.log("Cannot connect to the database!", err);
+    console.log("Cannot connect to the database!");
     process.exit();
   });
 
 require("./app/routes/user.routes")(app);
-
+require("./app/routes/patient.routes")(app);
 
 app.get('/core',(req,res) => {
     res.send("Welcome to core-service!");
 });
 
-const PORT = 7000;
+const PORT = process.env.NODE_AUTH_DOCKER_PORT;
 
 app.listen(PORT,() => {
     console.log(`Server listening at port ${PORT}`);
