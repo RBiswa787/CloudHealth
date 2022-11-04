@@ -3,14 +3,14 @@ import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import {styled, alpha,InputBase,Grid,Avatar,Button,Typography,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TableRow} from '@material-ui/core';
 function createData(
-    name: String,
-    specialization: String,
+    name,
+    specialization,
   ) {
     return { name,specialization};
   }
   const rows = [
-    createData('Dr.Yakult','Cardiologist'),
-    createData('Dr.YenniPenni','Oncologist'),
+    createData('Dr. Ankana','Cardiologist'),
+    createData('Dr. Biswadeep','Oncologist'),
   ];
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -56,16 +56,16 @@ const Body = () => {
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" style={{width:'80px',height:'80px',margin:'0% 5% 0% 0%'}}/>
            
      <Paper elevation={0} style={{fontSize:'12px',width:'50vw'}}>
-        <div><b>Patient ID:</b> 1234</div>
-        <div><b>Patient Name:</b> AB CDEFGH</div>
-        <div><b>Blood Group:</b> O+</div>
+        <div><b>Patient ID:</b> 1234 </div>
+        <div><b>Patient Name:</b> Lorem Ipsum</div>
+        <div><b>Blood Group:</b> O+ </div>
         <div><b>DOB:</b> 09-12-2000</div>
      </Paper>
     </Grid>
     
     <Typography style={{fontWeight:'bold',margin:'0% 20%'}}>Scheduled Appointments</Typography>
     <Paper style={{borderRadius:'10px',height:'50px',margin:'0% 20% 0.5% 20%',padding:'1% 1% 0% 1%'}}>
-        <div style={{fontSize:'14px'}}><b>Dr.Malupalu R</b></div>
+        <div style={{fontSize:'14px'}}><b>Dr. Akanksha</b></div>
         <div style={{fontSize:'12px',float:'left'}}>General Physician</div>
         <div style={{fontSize:'12px',float:'right'}}>21/10/2022 18:00:00 IST</div>
     </Paper>

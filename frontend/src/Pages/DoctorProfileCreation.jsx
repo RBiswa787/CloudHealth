@@ -66,6 +66,10 @@ const DoctorProfileCreation = () => {
         setContact(e);
     }
 
+    const redirect = (e) => {
+        navigate('/doctorDashboard')
+    }
+
     return <div style={{
         height: height,
         width: width,
@@ -197,7 +201,7 @@ const DoctorProfileCreation = () => {
                     backgroundColor: "#256D85",
                     color: "#DFF6FF"
                 }}
-                // onClick={LoginButton}
+                onClick={redirect}
             >
                 SUBMIT
             </Button>

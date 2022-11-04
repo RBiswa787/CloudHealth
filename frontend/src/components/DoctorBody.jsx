@@ -3,14 +3,14 @@ import SearchIcon from "@material-ui/icons/Search";
 import IconButton from "@material-ui/core/IconButton";
 import {styled, alpha,InputBase,Grid,Avatar,Button,Typography,Paper,Table,TableBody,TableCell,TableContainer,TableHead,TableRow} from '@material-ui/core';
 function createData(
-    id: number,
-    name: string,
+    id,
+    name,
   ) {
     return {id,name};
   }
   const rows = [
     createData(1234,'Nithin Y'),
-    createData(2345,'Thorndish U'),
+    createData(2345,'Biswadeep Ray'),
   ];
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -56,8 +56,8 @@ const Body = () => {
       <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" style={{width:'80px',height:'80px',margin:'0% 5% 0% 0%'}}/>
            
      <Paper elevation={0} style={{fontSize:'12px',width:'50vw'}}>
-        <div><b>Doctor ID:</b> 1234</div>
-        <div><b>Doctor Name:</b> AB CDEFGH</div>
+        <div><b>Doctor ID:</b> 20145</div>
+        <div><b>Doctor Name:</b> Dr. Lorem Ipsum</div>
         <div><b>Doctor Specialization:</b> General Physician</div>
         <div><b>Experience:</b> 10+ years</div>
      </Paper>
