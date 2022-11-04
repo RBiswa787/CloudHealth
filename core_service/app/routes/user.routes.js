@@ -8,11 +8,9 @@ module.exports = app => {
 
     router.get("/", user.findAll);
 
-    router.post("/signup", user.create);
+    router.post("/create", user.create);
 
-    router.get("/signin", user.findOne);
-
-    router.post("/signout", user.signOut);
+    router.post("/updatetoken", user.updateToken);
   
     
   };
