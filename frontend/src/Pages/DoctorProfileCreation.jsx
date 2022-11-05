@@ -115,7 +115,6 @@ const DoctorProfileCreation = () => {
                     onChange={(e) => {
                         handlerBlood(e.target.value)}
                     }
-                    label="Age"
                 >
                     {/*<MenuItem value="">*/}
                     {/*    <em>"A"</em>*/}
