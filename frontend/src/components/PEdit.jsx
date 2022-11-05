@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => {
         },
         grid3: {
             width: "50vw",
+            marginLeft: "15vw",
         },
         grid1: {
             paddingTop: "10%",
@@ -47,7 +48,9 @@ const useStyles = makeStyles((theme) => {
             fontFamily:"Times New Roman",
         },
         form: {
-          padding: "3% 5% 0% 0%" ,
+            position: "absolute",
+            left: "32vw",
+          padding: "2% 5% 0% 0%" ,
           fontWeight: "bold",
         }
     });
@@ -133,7 +136,7 @@ const PEdit = () => {
         Update
         </Button>
        </Grid>
-       <Grid style={{display:"flex",flexDirection:"column",alignItems:"center"}} container>
+       <Grid style={{display:"flex",flexDirection:"column",alignItems:"center",marginBottom:"20vh"}} container>
         <Grid className={classes.grid3} container justify="center">
             <Typography className={classes.form}>Photo URL: </Typography>
             <TextField className={classes.textField}
@@ -176,8 +179,8 @@ const PEdit = () => {
             <Typography className={classes.form}>DoB: </Typography>
             <TextField className={classes.textField}
                     error={dobError}
-                    id="photo-URL"
-                    label="Photo URL"
+                    id="DOB"
+                    label="DoB"
                     variant="standard"
                     style={{
                         display: "flex",
@@ -192,11 +195,11 @@ const PEdit = () => {
                 />
         </Grid>
         <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Photo URL: </Typography>
+            <Typography className={classes.form}>Gender: </Typography>
             <TextField className={classes.textField}
-                    error={photoURLError}
-                    id="photo-URL"
-                    label="Photo URL"
+                    error={genderError}
+                    id="gender"
+                    label="Gender"
                     variant="standard"
                     style={{
                         display: "flex",
@@ -204,9 +207,66 @@ const PEdit = () => {
                         justifySelf: "center",
                         width: "50%",
                     }}
-                    value={photoURL}
+                    value={gender}
                     onChange={(e) => {
-                        handlePhotoURL(e.target.value);
+                        handleGender(e.target.value);
+                    }}
+                />
+        </Grid>
+        <Grid className={classes.grid3} container justify="center">
+            <Typography className={classes.form}>Blood Group: </Typography>
+            <TextField className={classes.textField}
+                    error={bloodGroupError}
+                    id="bloodGroup"
+                    label="Blood Group"
+                    variant="standard"
+                    style={{
+                        display: "flex",
+                       
+                        justifySelf: "center",
+                        width: "50%",
+                    }}
+                    value={bloodGroup}
+                    onChange={(e) => {
+                        handleBloodGroup(e.target.value);
+                    }}
+                />
+        </Grid>
+        <Grid className={classes.grid3} container justify="center">
+            <Typography className={classes.form}>Email: </Typography>
+            <TextField className={classes.textField}
+                    error={emailError}
+                    id="email"
+                    label="Email"
+                    variant="standard"
+                    style={{
+                        display: "flex",
+                       
+                        justifySelf: "center",
+                        width: "50%",
+                    }}
+                    value={email}
+                    onChange={(e) => {
+                        handleEmail(e.target.value);
+                    }}
+                />
+        </Grid>
+        <Grid className={classes.grid3} container justify="center">
+            <Typography className={classes.form}>Contact: </Typography>
+            <TextField className={classes.textField}
+                    error={contactError}
+                    id="contact"
+                    label="Contact"
+                    variant="standard"
+                    style={{
+                        display: "flex",
+                       
+                        justifySelf: "center",
+                        width: "50%",
+                    }}
+                    value={contact}
+                    onChange={(e) => {
+                        handleContact(e.target.value);
                     }}
                 />
         </Grid>
