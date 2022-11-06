@@ -11,6 +11,7 @@ import RegForm from './components/RegForm';
 import PatientEditProfile from './Pages/PatientEditProfile';
 import DoctorEditProfile from './Pages/DoctorEditprofile';
 import PatientAppointDoctor from './Pages/PatientAppointDoctor';
+import DocProfile from './Pages/DocProfile';
 function App() {
   return (
     <Routes>
@@ -23,6 +24,7 @@ function App() {
           <Route path={"/patientEditProfile"} element={<PatientEditProfile></PatientEditProfile>}/>
           <Route path={"/doctorEditProfile"} element={<DoctorEditProfile></DoctorEditProfile>}/>
           <Route path={"/patientAppointDoctor"} element={<PatientAppointDoctor></PatientAppointDoctor>}/>
+          <Route path={"/docProfile"} element={<DocProfile></DocProfile>}/>
       </Routes>
   );
 }
