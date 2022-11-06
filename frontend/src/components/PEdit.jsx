@@ -57,13 +57,14 @@ const useStyles = makeStyles((theme) => {
 });
 const PEdit = () => {
     const classes = useStyles();
-    const [photoURL, setphotoURL] = useState("");
+    const [photoURL, setphotoURL] = useState("https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [name, setName] = useState("");
     const [dob, setDOB] = useState("");
     const [gender, setGender] = useState("");
     const [bloodGroup, setBloodGroup] = useState("");
     const [email, setEmail] = useState("");
     const [contact, setContact] = useState("");
+    const [imageURL, setImageURL] = useState(photoURL);
 
     const [photoURLError, setphotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
@@ -115,13 +116,16 @@ const PEdit = () => {
         }
         setContact(e);
     };
+    const handleUpdate = () => {
+        setImageURL(photoURL);
+    }
   return (
     <>
       <Grid className={classes.grid1} container justify="center" >
         Edit Profile
       </Grid>
         <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src="https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={imageURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'20px',width:'30vw',lineHeight:'1.8'}}>
               <div style={{fontSize:'25px'}}><b>Ada Smith</b></div>
@@ -132,7 +136,9 @@ const PEdit = () => {
             
         </Grid>
         <Grid style={{padding:"2%"}} container justify="center" >
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={
+                        handleUpdate
+                    } >
         Update
         </Button>
        </Grid>

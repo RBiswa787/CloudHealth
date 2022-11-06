@@ -1,6 +1,17 @@
 // const { mongoose } = require("../models");
+const amqp = require('amqplib');
 const db = require("../models");
 const User = db.user;
+
+let channel;
+
+async function connect() {
+  const amqpServer = process.env.RABBITMQ_URL;
+  const connection = await amqp.connect(amqpServer);
+  channel = await connection.createChannel();
+  await channel.assertQueue('AUTH');
+}
+connect();
 
 function makeToken(length) {
     let result           = '';
@@ -37,6 +48,14 @@ exports.create = (req,res) => {
                                 res.statusCode = 500;
                                 return res.send({message: err.message});
                             }
+                            channel.sendToQueue(
+                                'AUTH',
+                                Buffer.from(
+                                  JSON.stringify(
+                                    user
+                                  )
+                                )
+                              );
                             return res.send({message: "Registered Successfully!"});
                         });
                 }
