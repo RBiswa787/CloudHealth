@@ -1,12 +1,12 @@
 import { Typography,Grid } from '@material-ui/core'
 import React from 'react'
-import Navbar from '../components/Navbar';
-import PEdit from '../components/PEdit';
+import DNavbar from '../components/DNavbar';
+import DEdit from '../components/DEdit';
 const PatientEditProfile = () => {
   return (
     <>
-       <Navbar></Navbar>
-       <PEdit></PEdit>      
+       <DNavbar></DNavbar>
+       <DEdit></DEdit>      
     </>
   )
 }
