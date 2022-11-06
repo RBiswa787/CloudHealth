@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => {
 });
 const DEdit = () => {
     const classes = useStyles();
-    const [photoURL, setphotoURL] = useState("");
+    const [photoURL, setphotoURL] = useState("https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [name, setName] = useState("");
     const [dob, setDOB] = useState("");
     const [gender, setGender] = useState("");
@@ -85,6 +85,8 @@ const DEdit = () => {
     const [experience, setExperience] = useState("");
     const [qualification, setQualification] = useState("");
     const [publicDescription, setPublicDescription] = useState("");
+    const [imageURL, setImageURL] = useState(photoURL);
+
 
     const [photoURLError, setphotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
@@ -155,13 +157,16 @@ const DEdit = () => {
         }
         setPublicDescription(e);
     };
+    const handleUpdate = () => {
+        setImageURL(photoURL);
+    };
   return (
     <>
       <Grid className={classes.grid1} container justify="center" >
         Edit Profile
       </Grid>
         <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src="https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={imageURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'15px',width:'30vw',lineHeight:'1.8'}}>
               <div style={{fontSize:'25px'}}><b>Dr. R C Sen</b></div>
@@ -173,7 +178,7 @@ const DEdit = () => {
             
         </Grid>
         <Grid style={{padding:"2%"}} container justify="center" >
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleUpdate} >
         Update
         </Button>
        </Grid>
