@@ -10,6 +10,7 @@ import { Routes, Route } from "react-router-dom"
 import RegForm from './components/RegForm';
 import PatientEditProfile from './Pages/PatientEditProfile';
 import DoctorEditProfile from './Pages/DoctorEditprofile';
+import PatientAppointDoctor from './Pages/PatientAppointDoctor';
 function App() {
   return (
     <Routes>
@@ -21,6 +22,7 @@ function App() {
           <Route path={"/json"} element={<JSON></JSON>}/>
           <Route path={"/patientEditProfile"} element={<PatientEditProfile></PatientEditProfile>}/>
           <Route path={"/doctorEditProfile"} element={<DoctorEditProfile></DoctorEditProfile>}/>
+          <Route path={"/patientAppointDoctor"} element={<PatientAppointDoctor></PatientAppointDoctor>}/>
       </Routes>
   );
 }
