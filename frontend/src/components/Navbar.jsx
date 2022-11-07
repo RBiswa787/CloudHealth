@@ -132,7 +132,7 @@ import { Avatar } from "@mui/material";
           {femmecubatorLogo}
           <div>{getMenuButtons()}</div>
           <IconButton onClick={() => setOpen(true)} aria-label="show 17 new notifications" color="inherit">
-              <Badge color="secondary">
+              <Badge badgeContent={notifications.length} color="secondary">
                 <NotificationsIcon />
                 
               </Badge>
