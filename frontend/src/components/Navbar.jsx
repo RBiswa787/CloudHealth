@@ -4,12 +4,25 @@ import {
     Typography,
     makeStyles,
     Button,
-    IconButton,
-    Drawer,
     Link,
-    MenuItem,
+    MenuItem,Badge,IconButton,Paper
   } from "@material-ui/core";
+  import {
+    Drawer,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+  } from "@material-ui/core";
+  import {
+    CheckBoxOutlineBlankOutlined,
+    DraftsOutlined,
+    HomeOutlined,
+    InboxOutlined,
+    MailOutline,
+    ReceiptOutlined,
+  } from "@material-ui/icons";
   import MenuIcon from "@material-ui/icons/Menu";
+  import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Avatar } from "@mui/material";
   import React, { useState, useEffect } from "react";
   import { Link as RouterLink } from "react-router-dom";
@@ -31,6 +44,12 @@ import { Avatar } from "@mui/material";
       label: "Sign Out",
       href: "/SignOut",
     },
+  ];
+  const notifications = [
+    {
+      "name":"Dr. R C Sen",
+      "request":"Requesting to access EHR",
+    }
   ];
   
   const useStyles = makeStyles(() => ({
@@ -64,6 +83,23 @@ import { Avatar } from "@mui/material";
   }));
   
   export default function Navbar() {
+    const [open, setOpen] = useState(false);
+
+  const getList = () => (
+    <div style={{ width: 250,padding:"2%"}} onClick={() => setOpen(false)}>
+      <div style={{fontWeight:"bold",textAlign:"center"}}>Notifications</div>
+      {notifications.map((item) => (
+       <Paper style={{padding:"5%"}}>
+          <div>{item.name}</div>
+          <div>{item.request}</div>
+          <div>
+          <Button variant="contained"  style={{width:"50px",height:"30px",backgroundColor:"green",margin:"2% 5% 0% 0%",fontSize:"12px"}}>Accept</Button>
+          <Button variant="contained" style={{width:"50px",height:"30px",backgroundColor:"red",margin:"2% 5% 0% 0%",fontSize:"12px"}}>Decline</Button>
+          </div>
+       </Paper>
+      ))}
+    </div>
+  );
     const { header, logo, menuButton, toolbar, drawerContainer } = useStyles();
   
     const [state, setState] = useState({
@@ -95,6 +131,15 @@ import { Avatar } from "@mui/material";
             
           {femmecubatorLogo}
           <div>{getMenuButtons()}</div>
+          <IconButton onClick={() => setOpen(true)} aria-label="show 17 new notifications" color="inherit">
+              <Badge color="secondary">
+                <NotificationsIcon />
+                
+              </Badge>
+            </IconButton>
+            <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
+                  {getList()}
+                </Drawer>
         </Toolbar>
       );
     };
@@ -164,7 +209,8 @@ import { Avatar } from "@mui/material";
     );
   
     const getMenuButtons = () => {
-      return headersData.map(({ label, href }) => {
+      return (
+        headersData.map(({ label, href }) => {
         return (
           <Button
             {...{
@@ -178,7 +224,8 @@ import { Avatar } from "@mui/material";
             {label}
           </Button>
         );
-      });
+      })
+      );
     };
   
     return (
