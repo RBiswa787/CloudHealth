@@ -1,13 +1,13 @@
 version: "3.8"
 
 services:
-  rabbitmq:
-    image: rabbitmq:3.10-rc-management-alpine
-    ports:
-      # AMQP protocol port
-      - "5672:5672"
-      # HTTP management UI
-      - "15672:15672"
+#  rabbitmq:
+#    image: rabbitmq:3.10-rc-management-alpine
+#    ports:
+#      # AMQP protocol port
+#      - "5672:5672"
+#      # HTTP management UI
+#      - "15672:15672"
   mongodb:
     image: mongo:5.0.2
     restart: unless-stopped

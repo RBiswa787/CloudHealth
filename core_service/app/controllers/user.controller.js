@@ -1,7 +1,5 @@
 // const { mongoose } = require("../models");
-const amqp = require('amqplib');
 const db = require("../models");
-const  axios = require("axios");
 const User = db.user;
 
 exports.create = (req,res) => {
@@ -61,28 +59,6 @@ exports.updateToken = (req,res) => {
     );
 }
 
-connect().then(() => {
-    channel.consume('AUTH', data => {
-      console.log('Consuming AUTH service');
-      const {  username, password, isDoctor } = JSON.parse(data.content);
-      axios({
-        method: "POST",
-        url: "http://localhost:8787/api/user/create",
-        data: {
-            "username":username,
-            "password":password,
-            "isDoctor":isDoctor
-        }
-    })
-        .then(newuser => {
-        console.log(newuser);
-          channel.ack(data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    });
-  });
 
 
 
