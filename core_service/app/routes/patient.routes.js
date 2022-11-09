@@ -7,4 +7,6 @@ module.exports = app => {
 
     router.post("/create", patient.create);
 
+    router.post("/update", patient.update);
+
 };

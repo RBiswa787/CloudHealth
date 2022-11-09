@@ -1,6 +1,5 @@
-const { patient } = require("../models");
 const db = require("../models");
-const Patient = db.patient;
+const Doctor = db.doctor;
 
 exports.create = (req,res) => {
     if(!req.body.username){
@@ -8,22 +7,27 @@ exports.create = (req,res) => {
         return res.send({message: "Username cannot be empty!"});
     }
 
-    const patient = new Patient({
+    const doctor = new Doctor({
         username: req.body.username,
         name: req.body.name,
+        reg_no: req.body.reg_no,
+        specialisation: req.body.specialisation,
         dob: req.body.dob,
+        experience: req.body.experience,
         email: req.body.email,
-        blood_group: req.body.blood_group,
+        contact: req.body.contact,
+        qualification: req.body.qualification,
         gender: req.body.gender,
-        contacts: req.body.contacts,
-        photo_url: req.body.photo_url
+        description: req.body.description,
+        photo_url: req.body.photo_url,
+        slots: req.body.slots
     });
 
-    Patient.findOne({username: patient.username})
+    Doctor.findOne({username: doctor.username})
         .then(
             data => {
                 if(!data){
-                    patient
+                    doctor
                         .save(function(err,data){
                             if(err){
                                 res.statusCode = 500;
@@ -34,30 +38,40 @@ exports.create = (req,res) => {
                 }
                 else{
                     res.statusCode = 203;
-                    res.send({ message: "User already exists with username " + patient.username});
+                    res.send({ message: "User already exists with username " + doctor.username});
                 }
             }
         )
 };
 
 exports.update = (req,res) => {
-    const patient = new Patient({
+    const doctor = new Doctor({
         name: req.body.name,
+        reg_no: req.body.reg_no,
+        specialisation: req.body.specialisation,
         dob: req.body.dob,
+        experience: req.body.experience,
         email: req.body.email,
-        blood_group: req.body.blood_group,
+        contact: req.body.contact,
+        qualification: req.body.qualification,
         gender: req.body.gender,
-        contacts: req.body.contacts,
-        photo_url: req.body.photo_url
+        description: req.body.description,
+        photo_url: req.body.photo_url,
+        slots: req.body.slots
     });
-    Patient.findOneAndUpdate({username:req.body.username},{$set: {
+    Doctor.findOneAndUpdate({username:req.body.username},{$set: {
         name: req.body.name,
+        reg_no: req.body.reg_no,
+        specialisation: req.body.specialisation,
         dob: req.body.dob,
+        experience: req.body.experience,
         email: req.body.email,
-        blood_group: req.body.blood_group,
+        contact: req.body.contact,
+        qualification: req.body.qualification,
         gender: req.body.gender,
-        contacts: req.body.contacts,
-        photo_url: req.body.photo_url
+        description: req.body.description,
+        photo_url: req.body.photo_url,
+        slots: req.body.slots
     }})
     .then(res.send("Updated Successfully!"))
     .catch((err) => {res.statusCode = 501;

@@ -32,6 +32,7 @@ db.mongoose
 
 require("./app/routes/user.routes")(app);
 require("./app/routes/patient.routes")(app);
+require("./app/routes/doctor.routes")(app);
 require("./app/routes/doctorApointment.routes")(app);
 
 app.get('/core',(req,res) => {
