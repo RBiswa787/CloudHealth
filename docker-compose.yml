@@ -22,6 +22,7 @@ services:
   auth_test:
     depends_on:
       - mongodb
+      - rabbitmq
     build: ./auth_test
     restart: unless-stopped
     env_file: ./.env
@@ -38,6 +39,7 @@ services:
   core_service:
     depends_on:
       - mongodb
+      - rabbitmq
     build: ./core_service
     restart: unless-stopped
     env_file: ./.env

@@ -148,17 +148,11 @@ const LoginSignUp = () => {
                 "password":signPassword,
                 "isDoctor":true
             }
-        }).then((res) => {
-            if(res.status == 200){
-                navigate('/doctorNewProfile')
+        }).then((resp) => {
+            if(resp.status == 200){
+                navigate('/doctorNewProfile');
             }
-            else{
-                setSignPassword("")
-                setDialogOpen(true)
-                setAlertTitle("Sorry, that username already exists")
-                setDialogAlert("An account with this username already exists")
-            }
-        });
+        }) 
     };
 
     const signPatientButton = () => {
