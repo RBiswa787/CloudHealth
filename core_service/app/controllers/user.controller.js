@@ -1,6 +1,5 @@
 // const { mongoose } = require("../models");
 const db = require("../models");
-const  axios = require("axios");
 const User = db.user;
 
 exports.create = (req,res) => {
