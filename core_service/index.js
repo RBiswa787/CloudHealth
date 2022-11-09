@@ -31,6 +31,7 @@ db.mongoose
 
 require("./app/routes/user.routes")(app);
 require("./app/routes/patient.routes")(app);
+require("./app/routes/doctorApointment.routes")(app);
 
 app.get('/core',(req,res) => {
     res.send("Welcome to core-service!");

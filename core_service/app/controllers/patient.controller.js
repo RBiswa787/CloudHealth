@@ -2,8 +2,6 @@ const db = require("../models");
 const Patient = db.patient;
 
 exports.create = (req,res) => {
-    console.log("Entered")
-    console.log(req)
     if(!req.body.username){
         res.statusCode = 400;
         return res.send({message: "Username cannot be empty!"});
