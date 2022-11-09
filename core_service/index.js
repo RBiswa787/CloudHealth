@@ -26,12 +26,13 @@ db.mongoose
     console.log("Connected to the database!");
   })
   .catch(err => {
-    console.log("Cannot connect to the database!", err);
+    console.log("Cannot connect to the database!");
     process.exit();
   });
 
 require("./app/routes/user.routes")(app);
-
+require("./app/routes/patient.routes")(app);
+require("./app/routes/doctorApointment.routes")(app);
 
 app.get('/core',(req,res) => {
     res.send("Welcome to core-service!");

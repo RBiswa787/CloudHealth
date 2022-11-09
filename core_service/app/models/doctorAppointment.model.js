@@ -1,19 +1,13 @@
 module.exports = mongoose => {
     let schema = mongoose.Schema(
         {
-            username: {
+            doctorUsername: {
                 type: String,
                 required: true,
                 createIndexes: {unique: true},
                 unique: true
             },
-            name: {type: String},
-            dob: {type: Date},
-            email: {type: String},
-            blood_group: {type: String},
-            gender: {type: String},
-            contact: {type: String},
-            photo_url: {type: String}
+            appointmentId: {type: [String]}
         }
     );
 
@@ -23,5 +17,5 @@ module.exports = mongoose => {
         return object;
     });
 
-    return mongoose.model("patient", schema);
+    return mongoose.model("doctorAppointment", schema);
 };

@@ -4,16 +4,9 @@ const db = require("../models");
 const  axios = require("axios");
 const User = db.user;
 
-let channel;
-
-async function connect() {
-    const amqpServer = process.env.RABBITMQ_URL;
-    const connection = await amqp.connect(amqpServer);
-    channel = await connection.createChannel();
-    await channel.assertQueue('CORE');
-  }
-
 exports.create = (req,res) => {
+    console.log("Entered")
+    console.log(req)
     if(!req.body.username){
         res.statusCode = 400;
         return res.send({message: "Username cannot be empty!"});
