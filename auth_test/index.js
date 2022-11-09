@@ -12,7 +12,9 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
+
 const db = require("./app/models");
+const { send } = require("process");
 
 console.log(db.url);
 
@@ -31,7 +33,7 @@ db.mongoose
 
 require("./app/routes/user.routes")(app);
 
-app.get('/',(req,res) => {
+app.get('/',(req,res) => { 
     res.send("Welcome to auth-test!");
 });
 

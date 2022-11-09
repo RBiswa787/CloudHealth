@@ -58,7 +58,3 @@ exports.updateToken = (req,res) => {
         }
     );
 }
-
-
-
-

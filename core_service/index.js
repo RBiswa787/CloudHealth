@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 let mongoose = require('mongoose');
 
+
 const app = express();
 
 let corsOptions = {
@@ -32,6 +33,7 @@ db.mongoose
 
 require("./app/routes/user.routes")(app);
 require("./app/routes/patient.routes")(app);
+require("./app/routes/doctor.routes")(app);
 require("./app/routes/appointments.routes")(app);
 require("./app/routes/doctorApointment.routes")(app);
 require("./app/routes/patientAppointment.routes")(app);
