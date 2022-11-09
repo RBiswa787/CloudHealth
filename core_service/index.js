@@ -37,7 +37,7 @@ app.get('/core',(req,res) => {
     res.send("Welcome to core-service!");
 });
 
-const PORT = process.env.NODE_AUTH_DOCKER_PORT;
+const PORT = process.env.NODE_CORE_DOCKER_PORT;
 
 app.listen(PORT,() => {
     console.log(`Server listening at port ${PORT}`);
