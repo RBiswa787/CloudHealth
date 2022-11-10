@@ -7,6 +7,7 @@ import {
     Link,
     MenuItem,Badge,IconButton,Paper
   } from "@material-ui/core";
+  import {useNavigate} from 'react-router-dom';
   import {
     Drawer,
     ListItem,
@@ -39,10 +40,6 @@ import { Avatar } from "@mui/material";
     {
       label: "EHR",
       href: "/EHR",
-    },
-    {
-      label: "Sign Out",
-      href: "/SignOut",
     },
   ];
   const notifications = [
@@ -84,7 +81,7 @@ import { Avatar } from "@mui/material";
   
   export default function Navbar() {
     const [open, setOpen] = useState(false);
-
+    const navigate = useNavigate();
   const getList = () => (
     <div style={{ width: 250,padding:"2%"}} onClick={() => setOpen(false)}>
       <div style={{fontWeight:"bold",textAlign:"center"}}>Notifications</div>
@@ -130,13 +127,26 @@ import { Avatar } from "@mui/material";
         <Toolbar className={toolbar}>
             
           {femmecubatorLogo}
-          <div>{getMenuButtons()}</div>
+          <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/patientAppointDoctor')}}>
+            <Typography>Dashboard</Typography>
+          </Button>
+          <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/patientEditProfile')}}>
+            <Typography>Edit Profile</Typography>
+          </Button>
+          <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/EHR')}}>
+            <Typography>EHR</Typography>
+          </Button>
+          <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {localStorage.setItem('username',null);
+                localStorage.setItem('isDoctor',null);navigate('/')}}>
+            <Typography>Sign Out</Typography>
+          </Button>
           <IconButton onClick={() => setOpen(true)} aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={notifications.length} color="secondary">
                 <NotificationsIcon />
                 
               </Badge>
             </IconButton>
+           
             <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
                   {getList()}
                 </Drawer>
@@ -161,7 +171,6 @@ import { Avatar } from "@mui/material";
               onClick: handleDrawerOpen,
             }}
           >
-            <MenuIcon />
           </IconButton>
   
           <Drawer
@@ -208,25 +217,6 @@ import { Avatar } from "@mui/material";
       
     );
   
-    const getMenuButtons = () => {
-      return (
-        headersData.map(({ label, href }) => {
-        return (
-          <Button
-            {...{
-              key: label,
-              color: "inherit",
-              to: href,
-              component: RouterLink,
-              className: menuButton,
-            }}
-          >
-            {label}
-          </Button>
-        );
-      })
-      );
-    };
   
     return (
       <header>

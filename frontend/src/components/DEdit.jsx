@@ -158,7 +158,10 @@ const DEdit = () => {
         setPublicDescription(e);
     };
     const handleUpdate = () => {
-        setImageURL(photoURL);
+        //axios POST request to Update endpoint of server
+        //async delay of 100 ms
+        //axios GET request to Get endpoint of server
+
     };
   return (
     <>

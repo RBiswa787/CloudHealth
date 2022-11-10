@@ -1,3 +1,4 @@
+const { createRequire } = require("module");
 const { patient } = require("../models");
 const db = require("../models");
 const Patient = db.patient;
@@ -65,4 +66,22 @@ exports.update = (req,res) => {
     })
     
     
+};
+
+exports.get = (req, res) => {
+    Patient.findOne({username: req.body.username})
+        .then(data => {
+            if (!data) {
+                res.statusCode = 203;
+                return res.send({message: "Not found User with username " + req.body.username});
+            }
+            else{
+                return res.send(data);
+                }
+            }
+        )
+        .catch(err => {
+            res.statusCode = 500;
+            res.send({ message: err.message});
+        });
 };

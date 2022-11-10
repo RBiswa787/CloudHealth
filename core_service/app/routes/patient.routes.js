@@ -9,4 +9,6 @@ module.exports = app => {
 
     router.post("/update", patient.update);
 
+    router.post("/find", patient.get);
+
 };
