@@ -17,9 +17,6 @@ function App() {
   return (
     <Routes>
           <Route path={"/"} element={<LoginSignUp></LoginSignUp>} />
-          <Route path={"/doctorNewProfile"} element={<DoctorProfileCreation></DoctorProfileCreation>} />
-          <Route path={"/patientNewProfile"} element={<PatientProfileCreation></PatientProfileCreation>} />
-          <Route path={"/dashboard"} element={<Dashboard></Dashboard>}/>
           <Route path={"/doctorDashboard"} element={<DoctorDashboard></DoctorDashboard>}/>
           <Route path={"/json"} element={<JSON></JSON>}/>
           <Route path={"/patientEditProfile"} element={<PatientEditProfile></PatientEditProfile>}/>

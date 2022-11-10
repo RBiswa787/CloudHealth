@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     AppBar,
     Toolbar,
@@ -29,7 +29,7 @@ import { Avatar } from "@mui/material";
 import { ClassNames } from '@emotion/react';
 import Navbar from '../components/Navbar'
 
-let EHRdata = [
+var EHRdata = [
     {
         "timestamp":"4-11-2022 9.45pm",
         "notes":"Radiology Reports",
@@ -41,6 +41,9 @@ let EHRdata = [
         "document":"Prescription.pdf",
     },
 ]
+
+
+
 
 const useStyles = makeStyles((theme) => {
     return ({
@@ -89,12 +92,23 @@ const EHR = () => {
     const classes = useStyles();
     const [URL, setURL] = useState("");
     const [notes, setNotes] = useState("");
+    const [EHRdatum,setEHRdatum] = useState(EHRdata);
     const handleURL = (e) => {
         setURL(e);
     };
     const handleNotes = (e) => {
         setNotes(e);
     };
+    const handleUpdate = (e) => {
+      var payload = {"timestamp":"4-11-2022 9.45pm",
+      "notes": URL,
+      "document": notes};
+
+      EHRdata.push(payload);
+      console.log(EHRdata);
+      setEHRdatum(EHRdata);
+      console.log(EHRdatum);
+    }
   return (
     <>
     <Navbar></Navbar>
@@ -145,7 +159,7 @@ const EHR = () => {
                 />
         </Grid>
         <Grid style={{padding:"2%"}} container justify="center" >
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleUpdate}>
         Upload
         </Button>
         </Grid>
@@ -161,7 +175,7 @@ const EHR = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {EHRdata.map((row) => (
+          {EHRdatum.map((row) => (
             <TableRow>
               <TableCell align="center">{row.timestamp}</TableCell>
               <TableCell align="center">{row.notes}</TableCell>

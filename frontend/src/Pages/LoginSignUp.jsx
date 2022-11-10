@@ -150,7 +150,64 @@ const LoginSignUp = () => {
             }
         }).then((resp) => {
             if(resp.status == 200){
-                navigate('/doctorNewProfile');
+                localStorage.setItem('username',signUsername);
+                localStorage.setItem('isDoctor',true);
+                axios({
+                    method: "POST",
+                    url: "http://localhost:8787/api/user/create",
+                    data: {
+                        "username":signUsername,
+                        "password":signPassword,
+                        "isDoctor":true
+                    }
+                }).then((response)=> {
+                    if(response.status == 200){
+                                axios({
+                                    method: "POST",
+                                    url: "http://localhost:8787/api/doctor/create",
+                                    data: {
+                                        "username": signUsername,
+                                        "name": "not yet updated",
+                                        "reg_no": "not yet updated",
+                                        "specialisation": "not yet updated",
+                                        "dob": "",
+                                        "experience": 0,
+                                        "email": "not yet updated",
+                                        "contact": "not yet updated",
+                                        "qualification": "not yet updated",
+                                        "gender": "not yet updated",
+                                        "description": "not yet updated",
+                                        "photo_url": "not yet updated",
+                                        "slots": []
+                                    }
+                                })
+                                .then((re) => {
+                                    if(re.status == 200){
+                                        navigate("/doctorEditProfile");
+                                    }
+                                    else{
+                                        console.log(re.message);
+                                        setSignPassword("")
+                                       setDialogOpen(true)
+                                       setAlertTitle("Sorry, that username already exists")
+                                       setDialogAlert("An account with this username already exists")
+                                           }
+                                });
+                    }
+                    else{
+                 setSignPassword("")
+                setDialogOpen(true)
+                setAlertTitle("Sorry, that username already exists")
+                setDialogAlert("An account with this username already exists")
+                    }
+                })
+                
+            }
+            else{
+                setSignPassword("")
+                setDialogOpen(true)
+                setAlertTitle("Sorry, that username already exists")
+                setDialogAlert("An account with this username already exists")
             }
         }) 
     };
@@ -178,7 +235,52 @@ const LoginSignUp = () => {
             }
         }).then((res) => {
             if(res.status == 200){
-                navigate('/patientNewProfile')
+                localStorage.setItem('username',signUsername);
+                localStorage.setItem('isDoctor',true);
+                axios({
+                    method: "POST",
+                    url: "http://localhost:8787/api/user/create",
+                    data: {
+                        "username":signUsername,
+                        "password":signPassword,
+                        "isDoctor":false
+                    }
+                }).then((response)=> {
+                    if(response.status == 200){
+                        axios({
+                            method: "POST",
+                            url: "http://localhost:8787/api/patient/create",
+                            data: {
+                                "username": signUsername,
+                                "name": "not yet updated",
+                                "dob": "",
+                                "email": "not yet updated",
+                                "blood_group": "not yet updated",
+                                "gender": "not yet updated",
+                                "contacts": "not yet updated",
+                                "photo_url": "not yet updated"
+                            }
+                        })
+                        .then((re) => {
+                            if(re.status == 200){
+                                navigate("/patientEditProfile");
+                            }
+                            else{
+                                console.log(re.message);
+                                setSignPassword("")
+                               setDialogOpen(true)
+                               setAlertTitle("Sorry, that username already exists")
+                               setDialogAlert("An account with this username already exists")
+                                   }
+                        });
+                    }
+                    else{
+                 setSignPassword("")
+                setDialogOpen(true)
+                setAlertTitle("Sorry, that username already exists")
+                setDialogAlert("An account with this username already exists")
+                    }
+                })
             }
             else{
                 setSignPassword("")
