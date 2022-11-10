@@ -12,10 +12,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function AlertDialogSlide({setOpen, open, alertTitle, alert}) {
-    // const [open, setDialogOpen] = React.useState(false);
-    // const [alertTitle, setAlertTitle] = React.useState("")
-    // const [alert, setDialogAlert] = React.useState("");
-
+    
     const handleClose = () => {
         setOpen(false);
     };

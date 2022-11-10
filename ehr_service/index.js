@@ -30,10 +30,10 @@ db.mongoose
     process.exit();
   });
 
-require("./app/routes/user.routes")(app);
+require("./app/routes/ehr.routes")(app);
 
 app.get('/',(req,res) => { 
-    res.send("Welcome to auth-test!");
+    res.send("Welcome to ehr-service!");
 });
 
 const PORT = process.env.NODE_AUTH_DOCKER_PORT;
