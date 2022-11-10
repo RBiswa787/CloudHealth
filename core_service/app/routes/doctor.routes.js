@@ -9,6 +9,6 @@ module.exports = app => {
 
     router.post("/update", doctor.update);
 
-    router.post("/find", doctor.get);
+    router.post("/get", doctor.get);
 
 };

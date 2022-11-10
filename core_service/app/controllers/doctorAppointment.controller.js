@@ -40,3 +40,22 @@ exports.createUpdate = (req, res) => {
             }
         )
 };
+
+exports.get = (req, res) => {
+    if(!req.body.doctorUsername){
+        res.statusCode = 400;
+        return res.send({message: "Doctor username cannot be empty!"});
+    }
+    DoctorAppointment.findOne({doctorUsername: req.body.doctorUsername})
+        .then(
+            data => {
+                if(!data){
+                    res.statusCode = 501;
+                    return res.send({message: "Doctor Username not present"});
+                }
+                else{
+                    res.send(data);
+                }
+            }
+        )
+}

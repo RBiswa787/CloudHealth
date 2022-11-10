@@ -6,4 +6,6 @@ module.exports = app => {
     app.use("/api/appointment", router);
 
     router.post("/create", Appointment.create);
+
+    router.post("/get", Appointment.get)
 };
