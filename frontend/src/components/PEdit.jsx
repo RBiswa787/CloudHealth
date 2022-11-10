@@ -73,8 +73,9 @@ const PEdit = () => {
     const [TbloodGroup, setTBloodGroup] = useState("");
     const [Temail, setTEmail] = useState("");
     const [Tcontact, setTContact] = useState("");
+    const [photoURLError, setPhotoURLError] = useState(false);
 
-    const [photoURLError, setphotoURLError] = useState(false);
+    
     const [nameError, setNameError] = useState(false);
     const [dobError,setDOBError] = useState(false);
     const [genderError, setGenderError] = useState(false);
@@ -84,7 +85,7 @@ const PEdit = () => {
     
     const handlePhotoURL = (e) => {
         if (photoURLError == true && e.length > 0) {
-            setphotoURLError(false);
+            setPhotoURLError(false);
         }
         setphotoURL(e);
     };
@@ -285,8 +286,6 @@ const PEdit = () => {
                 />
         </Grid>
        </Grid>
-       
-                
     </>
   )
 }
