@@ -66,6 +66,14 @@ const PEdit = () => {
     const [contact, setContact] = useState("");
     const [imageURL, setImageURL] = useState(photoURL);
 
+    const [TphotoURL, setTphotoURL] = useState("https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+    const [Tname, setTName] = useState("");
+    const [Tdob, setTDOB] = useState("");
+    const [Tgender, setTGender] = useState("");
+    const [TbloodGroup, setTBloodGroup] = useState("");
+    const [Temail, setTEmail] = useState("");
+    const [Tcontact, setTContact] = useState("");
+
     const [photoURLError, setphotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
     const [dobError,setDOBError] = useState(false);
@@ -125,13 +133,13 @@ const PEdit = () => {
         Edit Profile
       </Grid>
         <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src={imageURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'20px',width:'30vw',lineHeight:'1.8'}}>
-              <div style={{fontSize:'25px'}}><b>Ada Smith</b></div>
-              <div>Age: 27&emsp;&emsp;Email: ada.sm@gmail.com</div>
-              <div>Gender: Female&emsp;&emsp;Blood Group: A+</div>
-              <div>Contact: 999999XXXXX</div>
+              <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
+              <div>Age: {Tdob}&emsp;&emsp;Email: {Temail}</div>
+              <div>Gender: {Tgender}&emsp;&emsp;Blood Group: {TbloodGroup}</div>
+              <div>Contact: {Tcontact}</div>
             </Paper>
             
         </Grid>
