@@ -6,4 +6,6 @@ module.exports = app => {
     app.use("/api/doctorAppointment", router);
 
     router.post("/createUpdate", doctorAppointment.createUpdate);
+
+    router.post("/get", doctorAppointment.get);
 };

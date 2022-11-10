@@ -33,3 +33,22 @@ exports.create = (req, res) => {
             }
         )
 };
+
+exports.get = (req, res) => {
+    if(!req.body.appointmentId){
+        res.statusCode = 400;
+        return res.send({message: "Appointment ID cannot be empty!"});
+    }
+    Appointment.findOne({appointmentId: req.body.appointmentId})
+        .then(
+            data => {
+                if(!data){
+                    res.statusCode = 501;
+                    return res.send({message: "Appointment ID not present"});
+                }
+                else{
+                    res.send(data);
+                }
+            }
+        )
+}
