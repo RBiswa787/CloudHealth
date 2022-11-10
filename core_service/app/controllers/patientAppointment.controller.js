@@ -1,18 +1,18 @@
 const db = require("../models");
-const DoctorAppointment = db.doctorAppointment;
+const PatientAppointment = db.patientAppointment;
 
 exports.createUpdate = (req, res) => {
-    if (!req.body.doctorUsername) {
+    if (!req.body.patientUsername) {
         res.statusCode = 400;
-        return res.send({message: "Doctor username cannot be empty!"});
+        return res.send({message: "Patient username cannot be empty!"});
     }
 
-    const appointment = new DoctorAppointment({
-        doctorUsername: req.body.doctorUsername,
+    const appointment = new PatientAppointment({
+        patientUsername: req.body.patientUsername,
         appointmentId: req.body.appointmentId,
     });
 
-    DoctorAppointment.findOne({doctorUsername: appointment.doctorUsername})
+    PatientAppointment.findOne({patientUsername: appointment.patientUsername})
         .then(
             data => {
                 if (!data) {
@@ -26,11 +26,8 @@ exports.createUpdate = (req, res) => {
                         });
                 } else {
                     let listAppointments = data.appointmentId;
-                    console.log(listAppointments)
                     listAppointments.push.apply(listAppointments, appointment.appointmentId);
-                    console.log(appointment.appointmentId);
-                    console.log(listAppointments)
-                    DoctorAppointment.findOneAndUpdate({doctorUsername: appointment.doctorUsername}, {appointmentId: listAppointments})
+                    PatientAppointment.findOneAndUpdate({patientUsername: appointment.patientUsername}, {appointmentId: listAppointments})
                         .then(res.send({message: "Successfully Updated Appointments list"}))
                         .catch(err => {
                             res.statusCode = 500;
