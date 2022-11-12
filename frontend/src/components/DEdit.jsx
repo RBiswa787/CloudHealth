@@ -88,6 +88,7 @@ const DEdit = () => {
     const [displayQualification, setDisplayQualification] = useState("");
     const [displayPublicDescription, setDisplayPublicDescription] = useState("");
     const [displaySpecialisation, setDisplaySpecialisation] = useState();
+    const [displayRegisterNo, setDisplayRegisterNo] = useState();
 
     const [photoURL, setPhotoURL] = useState("https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [name, setName] = useState("");
@@ -173,10 +174,25 @@ const DEdit = () => {
         setPublicDescription(e);
     };
     const handleUpdate = () => {
-        //axios POST request to Update endpoint of server
-        //async delay of 100 ms
-        //axios GET request to Get endpoint of server
-
+    //    TODO: Have to correct the slots, add description text box, add specialisation text box, add register number text box
+        var data = {
+            "name": name,
+            "reg_no": displayRegisterNo,
+            "specialisation": "Specialisation",
+            "dob": dob,
+            "experience": experience,
+            "email": email,
+            "contact": contact,
+            "qualification": qualification,
+            "gender": gender,
+            "description": "Description",
+            "photo_url": photoURL,
+            "slots": []
+        }
+        axios.post("http://localhost:8787/api/doctor/update", data)
+            .then(res => {
+                console.log(res.data)
+            });
     };
 
     useEffect(() => {
@@ -196,6 +212,7 @@ const DEdit = () => {
                     setDisplayQualification(res.data.qualification);
                     setDisplayPublicDescription(res.data.description);
                     setDisplaySpecialisation(res.data.specialisation);
+                    setDisplayRegisterNo(res.data.reg_no)
                 }
             )
     })
