@@ -8,19 +8,19 @@ import {
     IconButton,
     Drawer,
     Link,
-    MenuItem,Grid, Paper,
+    MenuItem, Grid, Paper,
     CssBaseline,
-  RadioGroup,
-  FormLabel,
-  FormGroup,
-  FormControl,
-  FormControlLabel, TextField
-  } from "@material-ui/core";
-  import MenuIcon from "@material-ui/icons/Menu";
-import { Avatar } from "@mui/material";
-  import { useState, useEffect } from "react";
-  import { Link as RouterLink } from "react-router-dom";
-import { ClassNames } from '@emotion/react';
+    RadioGroup,
+    FormLabel,
+    FormGroup,
+    FormControl,
+    FormControlLabel, TextField
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import {Avatar} from "@mui/material";
+import {useState, useEffect} from "react";
+import {Link as RouterLink} from "react-router-dom";
+import {ClassNames} from '@emotion/react';
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => {
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => {
         paper: {
             width: '40vw',
             justifyContent: "center",
-           
+
         },
         heading: {
             display: "flex",
@@ -46,13 +46,13 @@ const useStyles = makeStyles((theme) => {
             paddingTop: "10%",
             paddingBottom: "2%",
             fontSize: "3vw",
-            fontFamily:"Times New Roman",
+            fontFamily: "Times New Roman",
         },
         form: {
             position: "absolute",
             left: "32vw",
-          padding: "2% 5% 0% 0%" ,
-          fontWeight: "bold",
+            padding: "2% 5% 0% 0%",
+            fontWeight: "bold",
         }
     });
 });
@@ -78,12 +78,12 @@ const PEdit = () => {
 
     const [photoURLError, setPhotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
-    const [dobError,setDOBError] = useState(false);
+    const [dobError, setDOBError] = useState(false);
     const [genderError, setGenderError] = useState(false);
     const [bloodGroupError, setBloodGroupError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [contactError, setContactError] = useState(false);
-    
+
     const handlePhotoURL = (e) => {
         if (photoURLError == true && e.length > 0) {
             setPhotoURLError(false);
@@ -128,15 +128,26 @@ const PEdit = () => {
     };
     const handleUpdate = () => {
         setImageURL(photoURL);
+        var data = {
+            "username": localStorage.getItem('username'),
+            "name": name,
+            "dob": dob,
+            "email": email,
+            "blood_group": bloodGroup,
+            "gender": gender,
+            "contacts": contact,
+            "photo_url": photoURL
+        }
+        axios.post("http://localhost:8787/api/patient/update", data)
+            .then(res=>{console.log(res.data)})
+            .catch(err => {console.log(err.data)});
     }
 
     useEffect(() => {
-        let data = {"username": "Anas"};
+        var data = {"username": localStorage.getItem('username')};
         axios.post("http://localhost:8787/api/patient/get", data)
             .then(
                 res => {
-                    console.log("Hello")
-                    console.log(res)
                     setDisplayPhotoURL(res.data.photo_url);
                     setDisplayName(res.data.name);
                     setDisplayEmail(res.data.email);
@@ -148,166 +159,164 @@ const PEdit = () => {
             )
     })
 
-  return (
-    <>
-      <Grid className={classes.grid1} container justify="center" >
-        Edit Profile
-      </Grid>
-        <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src={imageURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
-           
-           <Paper elevation={0} style={{fontSize:'20px',width:'30vw',lineHeight:'1.8'}}>
-              <div style={{fontSize:'25px'}}><b>{displayName}</b></div>
-              <div>Email: {displayEmail}</div>
-              <div>Gender: {displayGender}&emsp;&emsp;Blood Group: {displayBloodGroup}</div>
-              <div>Contact: {displayContact}</div>
-            </Paper>
-            
-        </Grid>
-        <Grid style={{padding:"2%"}} container justify="center" >
-        <Button variant="contained" color="primary" onClick={
-                        handleUpdate
-                    } >
-        Update
-        </Button>
-       </Grid>
-       <Grid style={{display:"flex",flexDirection:"column",alignItems:"center",marginBottom:"20vh"}} container>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Photo URL: </Typography>
-            <TextField className={classes.textField}
-                    error={photoURLError}
-                    id="photo-URL"
-                    label="Photo URL"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={photoURL}
-                    onChange={(e) => {
-                        handlePhotoURL(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Name: </Typography>
-            <TextField className={classes.textField}
-                    error={nameError}
-                    id="name"
-                    label="Name"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={name}
-                    onChange={(e) => {
-                        handleName(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>DoB: </Typography>
-            <TextField className={classes.textField}
-                    error={dobError}
-                    id="DOB"
-                    label="DoB"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={dob}
-                    onChange={(e) => {
-                        handleDOB(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Gender: </Typography>
-            <TextField className={classes.textField}
-                    error={genderError}
-                    id="gender"
-                    label="Gender"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={gender}
-                    onChange={(e) => {
-                        handleGender(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Blood Group: </Typography>
-            <TextField className={classes.textField}
-                    error={bloodGroupError}
-                    id="bloodGroup"
-                    label="Blood Group"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={bloodGroup}
-                    onChange={(e) => {
-                        handleBloodGroup(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Email: </Typography>
-            <TextField className={classes.textField}
-                    error={emailError}
-                    id="email"
-                    label="Email"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={email}
-                    onChange={(e) => {
-                        handleEmail(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Contact: </Typography>
-            <TextField className={classes.textField}
-                    error={contactError}
-                    id="contact"
-                    label="Contact"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={contact}
-                    onChange={(e) => {
-                        handleContact(e.target.value);
-                    }}
-                />
-        </Grid>
-       </Grid>
-    </>
-  )
+    return (
+        <>
+            <Grid className={classes.grid1} container justify="center">
+                Edit Profile
+            </Grid>
+            <Grid className={classes.grid2} container justify="center">
+                <Avatar alt="Remy Sharp" src={imageURL} style={{width: '10vw', height: '10vw', margin: '2% 4% 0% 0%'}}/>
+
+                <Paper elevation={0} style={{fontSize: '20px', width: '30vw', lineHeight: '1.8'}}>
+                    <div style={{fontSize: '25px'}}><b>{displayName}</b></div>
+                    <div>Email: {displayEmail}</div>
+                    <div>Gender: {displayGender}&emsp;&emsp;Blood Group: {displayBloodGroup}</div>
+                    <div>Contact: {displayContact}</div>
+                </Paper>
+
+            </Grid>
+            <Grid style={{padding: "2%"}} container justify="center">
+                <Button variant="contained" color="primary" onClick={handleUpdate}>
+                    Update
+                </Button>
+            </Grid>
+            <Grid style={{display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "20vh"}}
+                  container>
+                <Grid className={classes.grid3} container justify="center">
+                    <Typography className={classes.form}>Photo URL: </Typography>
+                    <TextField className={classes.textField}
+                               error={photoURLError}
+                               id="photo-URL"
+                               label="Photo URL"
+                               variant="standard"
+                               style={{
+                                   display: "flex",
+
+                                   justifySelf: "center",
+                                   width: "50%",
+                               }}
+                               value={photoURL}
+                               onChange={(e) => {
+                                   handlePhotoURL(e.target.value);
+                               }}
+                    />
+                </Grid>
+                <Grid className={classes.grid3} container justify="center">
+                    <Typography className={classes.form}>Name: </Typography>
+                    <TextField className={classes.textField}
+                               error={nameError}
+                               id="name"
+                               label="Name"
+                               variant="standard"
+                               style={{
+                                   display: "flex",
+
+                                   justifySelf: "center",
+                                   width: "50%",
+                               }}
+                               value={name}
+                               onChange={(e) => {
+                                   handleName(e.target.value);
+                               }}
+                    />
+                </Grid>
+                <Grid className={classes.grid3} container justify="center">
+                    <Typography className={classes.form}>DoB: </Typography>
+                    <TextField className={classes.textField}
+                               error={dobError}
+                               id="DOB"
+                               label="DoB"
+                               variant="standard"
+                               style={{
+                                   display: "flex",
+                                   justifySelf: "center",
+                                   width: "50%",
+                               }}
+                               value={dob}
+                               onChange={(e) => {
+                                   handleDOB(e.target.value);
+                               }}
+                    />
+                </Grid>
+                <Grid className={classes.grid3} container justify="center">
+                    <Typography className={classes.form}>Gender: </Typography>
+                    <TextField className={classes.textField}
+                               error={genderError}
+                               id="gender"
+                               label="Gender"
+                               variant="standard"
+                               style={{
+                                   display: "flex",
+
+                                   justifySelf: "center",
+                                   width: "50%",
+                               }}
+                               value={gender}
+                               onChange={(e) => {
+                                   handleGender(e.target.value);
+                               }}
+                    />
+                </Grid>
+                <Grid className={classes.grid3} container justify="center">
+                    <Typography className={classes.form}>Blood Group: </Typography>
+                    <TextField className={classes.textField}
+                               error={bloodGroupError}
+                               id="bloodGroup"
+                               label="Blood Group"
+                               variant="standard"
+                               style={{
+                                   display: "flex",
+
+                                   justifySelf: "center",
+                                   width: "50%",
+                               }}
+                               value={bloodGroup}
+                               onChange={(e) => {
+                                   handleBloodGroup(e.target.value);
+                               }}
+                    />
+                </Grid>
+                <Grid className={classes.grid3} container justify="center">
+                    <Typography className={classes.form}>Email: </Typography>
+                    <TextField className={classes.textField}
+                               error={emailError}
+                               id="email"
+                               label="Email"
+                               variant="standard"
+                               style={{
+                                   display: "flex",
+
+                                   justifySelf: "center",
+                                   width: "50%",
+                               }}
+                               value={email}
+                               onChange={(e) => {
+                                   handleEmail(e.target.value);
+                               }}
+                    />
+                </Grid>
+                <Grid className={classes.grid3} container justify="center">
+                    <Typography className={classes.form}>Contact: </Typography>
+                    <TextField className={classes.textField}
+                               error={contactError}
+                               id="contact"
+                               label="Contact"
+                               variant="standard"
+                               style={{
+                                   display: "flex",
+
+                                   justifySelf: "center",
+                                   width: "50%",
+                               }}
+                               value={contact}
+                               onChange={(e) => {
+                                   handleContact(e.target.value);
+                               }}
+                    />
+                </Grid>
+            </Grid>
+        </>
+    )
 }
 
 export default PEdit
