@@ -1,5 +1,7 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar';
+import axios from 'axios';
+import moment from 'moment';
 import {
     AppBar,
     Toolbar,
@@ -59,56 +61,7 @@ let dates=[
         "year":2022,
     },
 ]
-let slots = [
-    {
-        "starttime":"09:00",
-        "endtime":"09:10",
-    },
-    {
-        "starttime":"09:10",
-        "endtime":"09:20",
-    },
-    {
-        "starttime":"09:20",
-        "endtime":"09:30",
-    },
-    {
-        "starttime":"09:30",
-        "endtime":"09:40",
-    },
-    {
-        "starttime":"09:40",
-        "endtime":"09:50",
-    },
-    {
-        "starttime":"09:50",
-        "endtime":"10:00",
-    },
-    {
-        "starttime":"10:00",
-        "endtime":"10:10",
-    },
-    {
-        "starttime":"10:10",
-        "endtime":"10:20",
-    },
-    {
-        "starttime":"10:20",
-        "endtime":"10:30",
-    },
-    {
-        "starttime":"10:30",
-        "endtime":"10:40",
-    },
-    {
-        "starttime":"10:40",
-        "endtime":"10:50",
-    },
-    {
-        "starttime":"10:50",
-        "endtime":"11:00",
-    },
-]
+
 const useStyles = makeStyles((theme) => {
     return ({
         paper: {
@@ -148,11 +101,70 @@ const useStyles = makeStyles((theme) => {
     });
 });
 const DocProfile = () => {
+    const doc_username = window.localStorage.getItem('doc_username');
     const classes = useStyles();
     const [tabIndex, setTabIndex] = useState(0);
 
     const handleTabChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);}
+    
+    const [TphotoURL, setTphotoURL] = useState("");
+    const [Tname, setTName] = useState("");
+    const [Treg, setTReg] = useState("");
+    const [Tspec, setTSpec] = useState("");
+    const [Tdob, setTDOB] = useState("");
+    const [Tgender, setTGender] = useState("");
+    const [Temail, setTEmail] = useState("");
+    const [Tcontact, setTContact] = useState("");
+    const [Texperience, setTExperience] = useState("");
+    const [Tqualification, setTQualification] = useState("");
+    const [TpublicDescription, setTPublicDescription] = useState("");
+    const [Tslots, setTSlots] = useState([]);
+    
+    
+    let days = [];
+    let daysRequired = 7
+
+    for (let i = 1; i <= daysRequired; i++) {
+    days.push( moment().add(i, 'days').format('MMM Do YY') )
+    }
+
+    let localslots = {0:[],1:[],2:[],3:[],4:[],5:[],6:[]};
+
+    for(let i=0;i<7;i++){
+        localslots[i].push(`${Tslots[i]}:00 - ${Tslots[i]}:10`);
+        localslots[i].push(`${Tslots[i]}:10 - ${Tslots[i]}:20`);
+        localslots[i].push(`${Tslots[i]}:20 - ${Tslots[i]}:30`);
+        localslots[i].push(`${Tslots[i]}:30 - ${Tslots[i]}:40`);
+        localslots[i].push(`${Tslots[i]}:40 - ${Tslots[i]}:50`);
+        localslots[i].push(`${Tslots[i]}:50 - ${Tslots[i]+1}:00`);
+        localslots[i].push(`${Tslots[i]+1}:00 - ${Tslots[i]+1}:10`);
+        localslots[i].push(`${Tslots[i]+1}:10 - ${Tslots[i]+1}:20`);
+        localslots[i].push(`${Tslots[i]+1}:20 - ${Tslots[i]+1}:30`);
+        localslots[i].push(`${Tslots[i]+1}:30 - ${Tslots[i]+1}:40`);
+        localslots[i].push(`${Tslots[i]+1}:40 - ${Tslots[i]+1}:50`);
+        localslots[i].push(`${Tslots[i]+1}:50 - ${Tslots[i]+2}:00`);
+    }
+    console.log(localslots);
+
+    
+    useEffect(() => {
+        axios.post("http://localhost:8787/api/doctor/find",{"username":doc_username})
+        .then(res => {
+            setTphotoURL(res.data.photo_url);
+            setTName(res.data.name);
+            setTReg(res.data.reg_num);
+            setTSpec(res.data.specialisation);
+            setTDOB(res.data.dob);
+            setTGender(res.data.gender);
+            setTEmail(res.data.email);
+            setTExperience(res.data.experience);
+            setTQualification(res.data.qualification);
+            setTSlots(res.data.slots);
+            setTPublicDescription(res.data.description);
+            setTSlots(res.data.slots);
+        });
+    },[]);
   return (
     <>
         <Navbar></Navbar>
@@ -160,10 +172,10 @@ const DocProfile = () => {
         <Avatar alt="Remy Sharp" src="https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" style={{width:'12vw',height:'12vw',margin:'2% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'15px',width:'40vw',lineHeight:'1.8'}}>
-              <div style={{fontSize:'25px'}}><b>Dr. R C Sen</b></div>
-              <div>MBBS MD Cardiology</div>
-              <div>Experience: 5+</div>
-              <div>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</div>
+              <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
+              <div>{Tqualification} {Tspec}</div>
+              <div>Experience: {Texperience}</div>
+              <div>{TpublicDescription}</div>
               <div>Fees: Rs. 700</div>
             </Paper>
         </Grid>
@@ -173,19 +185,26 @@ const DocProfile = () => {
         <Grid style={{padding:"2%"}} container justify="center" >
        <Tabs value={tabIndex} onChange={handleTabChange}>
         {
-            dates.map(
-                (record) => (<Tab className={classes.tab} label={record.date+" "+record.month+" "+record.year}/>)
+            days.map(
+                (day) => (<Tab className={classes.tab} style={{color:"white"}} label={day}/>)
             )
         }
         </Tabs>
         </Grid>
         <Grid style={{padding:"2% 20%"}} container justify="center">
             {
-                slots.map(
-                    (record) => (
-                        <Button variant="contained" style={{border:"1px solid blue",margin:" 2% 5%"}}>{record.starttime} - {record.endtime}</Button>
-                    )
+                Tslots[tabIndex]==0 && (
+                    <Typography style={{justifySelf:"center",fontSize:34}}>Doctor is not available!</Typography>
                 )
+            }
+            {
+                Tslots[tabIndex]!=0 &&
+
+                (localslots[tabIndex].map(
+                    (record) => (
+                        <Button variant="contained" style={{border:"1px solid blue",margin:" 2% 5%"}}>{record}</Button>
+                    )
+                ))
             }
         </Grid>
         <Grid style={{padding:"2%"}} container justify="center" >

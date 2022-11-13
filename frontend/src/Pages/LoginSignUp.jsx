@@ -120,8 +120,16 @@ const LoginSignUp = () => {
                 setDialogAlert("Either your username or password is incorrect")
             }
             else {
-                setLoginToken(res.data.access)
-                navigate('/dashboard')
+                setLoginToken(res.data.access);
+                if(res.data.isDoctor){
+                    window.localStorage.setItem("username",loginUsername);
+                    navigate('/doctorEditProfile')
+                }
+                else{
+                    window.localStorage.setItem("username",loginUsername);
+                    navigate('/patientEditProfile')
+                }
+                
             }
         });
     };
@@ -167,7 +175,7 @@ const LoginSignUp = () => {
                                     url: "http://localhost:8787/api/doctor/create",
                                     data: {
                                         "username": signUsername,
-                                        "name": "not yet updated",
+                                        "name": signName,
                                         "reg_no": "not yet updated",
                                         "specialisation": "not yet updated",
                                         "dob": "",
@@ -178,7 +186,7 @@ const LoginSignUp = () => {
                                         "gender": "not yet updated",
                                         "description": "not yet updated",
                                         "photo_url": "not yet updated",
-                                        "slots": []
+                                        "slots": [0,0,0,0,0,0,0]
                                     }
                                 })
                                 .then((re) => {
@@ -236,7 +244,7 @@ const LoginSignUp = () => {
         }).then((res) => {
             if(res.status == 200){
                 localStorage.setItem('username',signUsername);
-                localStorage.setItem('isDoctor',true);
+                localStorage.setItem('isDoctor',false);
                 axios({
                     method: "POST",
                     url: "http://localhost:8787/api/user/create",
@@ -252,7 +260,7 @@ const LoginSignUp = () => {
                             url: "http://localhost:8787/api/patient/create",
                             data: {
                                 "username": signUsername,
-                                "name": "not yet updated",
+                                "name": signName,
                                 "dob": "",
                                 "email": "not yet updated",
                                 "blood_group": "not yet updated",

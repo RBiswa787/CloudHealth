@@ -1,5 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
+import axios from 'axios'
+import {useNavigate} from 'react-router-dom';
 import {
     AppBar,
     Toolbar,
@@ -131,20 +133,53 @@ const useStyles = makeStyles((theme) => {
     });
 });
 const PatientAppointDoctor = () => {
+    const username = window.localStorage.getItem('username');
+    const navigate = useNavigate();
     const classes = useStyles();
-    const [query, setQuery] = useState("")
+    const [query, setQuery] = useState("");
+
+    const [TphotoURL, setTphotoURL] = useState("https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+    const [Tname, setTName] = useState("");
+    const [Tdob, setTDOB] = useState("");
+    const [Tgender, setTGender] = useState("");
+    const [TbloodGroup, setTBloodGroup] = useState("");
+    const [Temail, setTEmail] = useState("");
+
+    const [alldocs, setAlldocs] = useState([]);
+    
+    const handleView = (param) => {
+        window.localStorage.setItem("doc_username",param);
+        console.log("hello")
+        console.log(param);
+        navigate('/docProfile');
+    }
+    useEffect(() => {
+        axios.post("http://localhost:8787/api/patient/find",{"username":username})
+        .then(res => {
+            setTphotoURL(res.data.photo_url);
+            setTName(res.data.name);
+            setTDOB(res.data.dob);
+            setTGender(res.data.gender);
+            setTBloodGroup(res.data.blood_group);
+            setTEmail(res.data.email);
+        });
+        axios.get("http://localhost:8787/api/doctor/findAll")
+        .then(res => {
+            setAlldocs(res.data);
+            console.log(res.data);
+        })
+    },[]);
   return (
     <>
       <Navbar></Navbar>
       <Grid className={classes.grid1} container justify="center" >
-        <Avatar alt="Remy Sharp" src="https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'15px',width:'30vw',lineHeight:'1.8'}}>
-              <div style={{fontSize:'25px'}}><b>Ada Smith</b></div>
-              <div>Age: 27&emsp;&emsp;Gender: Female</div>
-              <div>Blood Group: A+&emsp;&emsp;</div>
-              <div>Contact: 999999XXXXX</div>
-              <div>EHR #: 13214</div>
+              <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
+              <div>Age: {Tdob}&emsp;&emsp;Gender: {Tgender}</div>
+              <div>Blood Group: {TbloodGroup}&emsp;&emsp;</div>
+              <div>Email: {Temail}</div>
             </Paper>
             
         </Grid>
@@ -174,17 +209,18 @@ const PatientAppointDoctor = () => {
             <br /><br /><br />
             <div>
             {
-                doctors.filter(post => {
+                alldocs.filter(post => {
                     if (query === '') {
                     return post;
-                    } else if (post.docName.toLowerCase().includes(query.toLowerCase())||post.speciality.toLowerCase().includes(query.toLowerCase())) {
-                    return post;
+                    } else if (post.name.toLowerCase().includes(query.toLowerCase())||post.specialisation.toLowerCase().includes(query.toLowerCase())) {
+                    
+                        return post;
                     }
                 }).map((post, index) => (
                     <Paper className={classes.paper2} elevation={5}>
                     <Grid style={{fontSize:'18px',display:"flex",flexDirection:"row"}}>
-                    <img alt="Remy Sharp" src={post.docPic} style={{width:'6vw',height:'5vw',marginRight:'5%',borderRadius:'10px'}}/>
-                    <Paper elevation={0} style={{marginTop:"2%"}}>{post.docName}&emsp;&emsp;&emsp;&emsp;{post.speciality}<Button variant="contained" style={{border:"1px solid blue",position:"absolute",left:"75%"}}>View</Button>
+                    <img alt="Remy Sharp" src={post.photo_url} style={{width:'6vw',height:'5vw',marginRight:'5%',borderRadius:'10px'}}/>
+                    <Paper elevation={0} style={{marginTop:"2%"}}>{post.name}&emsp;&emsp;&emsp;&emsp;{post.specialisation}<Button variant="contained" style={{border:"1px solid blue",position:"absolute",left:"75%"}} onClick= {() => handleView(post.username)}>View</Button>
                     </Paper>
                         
                     </Grid>

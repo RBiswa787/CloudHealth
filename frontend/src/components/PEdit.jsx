@@ -21,6 +21,7 @@ import { Avatar } from "@mui/material";
   import { useState, useEffect } from "react";
   import { Link as RouterLink } from "react-router-dom";
 import { ClassNames } from '@emotion/react';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
     return ({
@@ -56,15 +57,15 @@ const useStyles = makeStyles((theme) => {
     });
 });
 const PEdit = () => {
+    const username = window.localStorage.getItem('username');
     const classes = useStyles();
+
     const [photoURL, setphotoURL] = useState("https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [name, setName] = useState("");
     const [dob, setDOB] = useState("");
     const [gender, setGender] = useState("");
     const [bloodGroup, setBloodGroup] = useState("");
     const [email, setEmail] = useState("");
-    const [contact, setContact] = useState("");
-    const [imageURL, setImageURL] = useState(photoURL);
 
     const [TphotoURL, setTphotoURL] = useState("https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [Tname, setTName] = useState("");
@@ -72,16 +73,15 @@ const PEdit = () => {
     const [Tgender, setTGender] = useState("");
     const [TbloodGroup, setTBloodGroup] = useState("");
     const [Temail, setTEmail] = useState("");
-    const [Tcontact, setTContact] = useState("");
-    const [photoURLError, setPhotoURLError] = useState(false);
 
-    
+
+    const [photoURLError, setPhotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
     const [dobError,setDOBError] = useState(false);
     const [genderError, setGenderError] = useState(false);
     const [bloodGroupError, setBloodGroupError] = useState(false);
     const [emailError, setEmailError] = useState(false);
-    const [contactError, setContactError] = useState(false);
+
     
     const handlePhotoURL = (e) => {
         if (photoURLError == true && e.length > 0) {
@@ -119,15 +119,42 @@ const PEdit = () => {
         }
         setEmail(e);
     };
-    const handleContact = (e) => {
-        if (contactError == true && e.length > 0) {
-            setContactError(false);
-        }
-        setContact(e);
-    };
+
     const handleUpdate = () => {
-        setImageURL(photoURL);
-    }
+        //axios POST request to Update endpoint of server
+        axios.post("http://localhost:8787/api/patient/update",{
+            "username":username,
+            "name": name,
+            "dob": dob,
+            "email": email,
+            "gender": gender,
+            "photo_url": photoURL,
+            "blood_group":bloodGroup,
+        })
+        .then(res => {
+            window.location.reload();
+        })
+    };
+
+    useEffect(() => {
+        axios.post("http://localhost:8787/api/patient/find",{"username":username})
+        .then(res => {
+            setTphotoURL(res.data.photo_url);
+            setTName(res.data.name);
+            setTDOB(res.data.dob);
+            setTGender(res.data.gender);
+            setTBloodGroup(res.data.blood_group);
+            setTEmail(res.data.email);
+
+            setphotoURL(res.data.photo_url);
+            setName(res.data.name);
+            setDOB(res.data.dob);
+            setGender(res.data.gender);
+            setBloodGroup(res.data.blood_group);
+            setEmail(res.data.email);
+        });
+    },[]);
+
   return (
     <>
       <Grid className={classes.grid1} container justify="center" >
@@ -140,7 +167,6 @@ const PEdit = () => {
               <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
               <div>Age: {Tdob}&emsp;&emsp;Email: {Temail}</div>
               <div>Gender: {Tgender}&emsp;&emsp;Blood Group: {TbloodGroup}</div>
-              <div>Contact: {Tcontact}</div>
             </Paper>
             
         </Grid>
@@ -263,25 +289,6 @@ const PEdit = () => {
                     value={email}
                     onChange={(e) => {
                         handleEmail(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Contact: </Typography>
-            <TextField className={classes.textField}
-                    error={contactError}
-                    id="contact"
-                    label="Contact"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={contact}
-                    onChange={(e) => {
-                        handleContact(e.target.value);
                     }}
                 />
         </Grid>

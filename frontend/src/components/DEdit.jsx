@@ -21,6 +21,7 @@ import { Avatar } from "@mui/material";
   import { useState, useEffect } from "react";
   import { Link as RouterLink } from "react-router-dom";
 import { ClassNames } from '@emotion/react';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
     return ({
@@ -75,18 +76,41 @@ const useStyles = makeStyles((theme) => {
     });
 });
 const DEdit = () => {
+    const username = window.localStorage.getItem('username');
     const classes = useStyles();
     const [photoURL, setphotoURL] = useState("https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [name, setName] = useState("");
     const [dob, setDOB] = useState("");
     const [gender, setGender] = useState("");
+    const [spec, setSpec] = useState("");
+    const [reg, setReg] = useState("");
     const [email, setEmail] = useState("");
     const [contact, setContact] = useState("");
     const [experience, setExperience] = useState("");
     const [qualification, setQualification] = useState("");
     const [publicDescription, setPublicDescription] = useState("");
-    const [imageURL, setImageURL] = useState(photoURL);
+    const [slots, setSlots] = useState([0,0,0,0,0,0,0]);
+    const [mon,setMon] = useState(9);
+    const [tue,setTue] = useState(9);
+    const [wed,setWed] = useState(9);
+    const [thurs,setThurs] = useState(9);
+    const [fri,setFri] = useState(9);
+    const [sat,setSat] = useState(9);
+    const [sun,setSun] = useState(9);
 
+
+    const [TphotoURL, setTphotoURL] = useState("");
+    const [Tname, setTName] = useState("");
+    const [Treg, setTReg] = useState("");
+    const [Tspec, setTSpec] = useState("");
+    const [Tdob, setTDOB] = useState("");
+    const [Tgender, setTGender] = useState("");
+    const [Temail, setTEmail] = useState("");
+    const [Tcontact, setTContact] = useState("");
+    const [Texperience, setTExperience] = useState("");
+    const [Tqualification, setTQualification] = useState("");
+    const [TpublicDescription, setTPublicDescription] = useState("");
+    const [Tslots, setTSlots] = useState([]);
 
     const [photoURLError, setphotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
@@ -99,6 +123,69 @@ const DEdit = () => {
     const [publicDescriptionError, setPublicDescriptionError] = useState(false);
     
     const [tabIndex, setTabIndex] = useState(0);
+
+    const handleMon = (e) => {
+        setMon(e);
+    }
+
+    const handleTue = (e) => {
+        setTue(e);
+    }
+
+    const handleWed = (e) => {
+        setWed(e);
+    }
+
+    const handleThurs = (e) => {
+        setThurs(e);
+    }
+
+    const handleFri = (e) => {
+        setFri(e);
+    }
+
+    const handleSat = (e) => {
+        setSat(e);
+    }
+
+    const handleSun = (e) => {
+        setSun(e);
+    }
+    
+    const handleMonSubmit = () => {
+        slots[0] = mon;
+        console.log(slots);
+    }
+    
+    const handleTueSubmit = () => {
+        slots[1] = tue;
+        console.log(slots);
+    }
+
+    const handleWedSubmit = () => {
+        slots[2] = wed;
+        console.log(slots);
+    }
+
+    const handleThursSubmit = () => {
+        slots[3] = thurs;
+        console.log(slots);
+    }
+
+    const handleFriSubmit = () => {
+        slots[4] = fri;
+        console.log(slots);
+    }
+
+    const handleSatSubmit = () => {
+        slots[5] = sat;
+        console.log(slots);
+    }
+
+    const handleSunSubmit = () => {
+        slots[6] = sun;
+        console.log(slots);
+    }
 
     const handleTabChange = (event, newTabIndex) => {
     setTabIndex(newTabIndex);}
@@ -151,6 +238,12 @@ const DEdit = () => {
         }
         setQualification(e);
     };
+    const handleSpecialisation = (e) => {
+        setSpec(e);
+    };
+    const handleRegistration = (e) => {
+        setReg(e);
+    };
     const handlePublicDescription = (e) => {
         if (contactError == true && e.length > 0) {
             setPublicDescriptionError(false);
@@ -159,24 +252,75 @@ const DEdit = () => {
     };
     const handleUpdate = () => {
         //axios POST request to Update endpoint of server
+        axios.post("http://localhost:8787/api/doctor/update",{
+            "username":username,
+            "name": name,
+            "reg_no": "123",
+            "specialisation": spec,
+            "dob": dob,
+            "experience": experience,
+            "email": email,
+            "contact": "88677889898",
+            "qualification": qualification,
+            "gender": gender,
+            "description": publicDescription,
+            "photo_url": photoURL,
+            "slots": slots
+        })
+        .then(res => {
+            window.location.reload();
+        })
         //async delay of 100 ms
         //axios GET request to Get endpoint of server
 
     };
+
+    useEffect(() => {
+        axios.post("http://localhost:8787/api/doctor/find",{"username":username})
+        .then(res => {
+            setTphotoURL(res.data.photo_url);
+            setTName(res.data.name);
+            setTReg(res.data.reg_num);
+            setTSpec(res.data.specialisation);
+            setTDOB(res.data.dob);
+            setTGender(res.data.gender);
+            setTEmail(res.data.email);
+            setTExperience(res.data.experience);
+            setTQualification(res.data.qualification);
+            setTSlots(res.data.slots);
+            setTPublicDescription(res.data.description);
+            setTSlots(res.data.slots);
+
+            setphotoURL(res.data.photo_url);
+            setName(res.data.name);
+            setReg(res.data.reg_num);
+            setSpec(res.data.specialisation);
+            setDOB(res.data.dob);
+            setGender(res.data.gender);
+            setEmail(res.data.email);
+            setExperience(res.data.experience);
+            setQualification(res.data.qualification);
+            setSlots(res.data.slots);
+            setPublicDescription(res.data.description);
+            setSlots(res.data.slots);
+        });
+    },[]);
+
+
   return (
     <>
       <Grid className={classes.grid1} container justify="center" >
         Edit Profile
       </Grid>
         <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src={imageURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'15px',width:'30vw',lineHeight:'1.8'}}>
-              <div style={{fontSize:'25px'}}><b>Dr. R C Sen</b></div>
-              <div>MBBS MD Cardiology</div>
-              <div>Experience: 5+</div>
-              <div>Gender: Male</div>
-              <div>Contact: 999999XXXXX</div>
+              <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
+              <div>{Tqualification} {Tspec}</div>
+              <div>Experience: {Texperience}</div>
+              <div>Gender: {Tgender}</div>
+              <div>Description: {TpublicDescription}</div>
             </Paper>
             
         </Grid>
@@ -339,6 +483,42 @@ const DEdit = () => {
                 />
         </Grid>
         <Grid className={classes.grid3} container justify="center">
+            <Typography className={classes.form}>Specialisation: </Typography>
+            <TextField className={classes.textField}
+                    id="specialisation"
+                    label="Specialisation"
+                    variant="standard"
+                    style={{
+                        display: "flex",
+                       
+                        justifySelf: "center",
+                        width: "50%",
+                    }}
+                    value={spec}
+                    onChange={(e) => {
+                        handleSpecialisation(e.target.value);
+                    }}
+                />
+        </Grid>
+        <Grid className={classes.grid3} container justify="center">
+            <Typography className={classes.form}>Registration No.: </Typography>
+            <TextField className={classes.textField}
+                    id="registration"
+                    label="Registration"
+                    variant="standard"
+                    style={{
+                        display: "flex",
+                       
+                        justifySelf: "center",
+                        width: "50%",
+                    }}
+                    value={reg}
+                    onChange={(e) => {
+                        handleRegistration(e.target.value);
+                    }}
+                />
+        </Grid>
+        <Grid className={classes.grid3} container justify="center">
             <Typography className={classes.form}>Public Description: </Typography>
             <TextField className={classes.textField}
                     error={experienceError}
@@ -373,272 +553,140 @@ const DEdit = () => {
         {tabIndex === 0 && (
           <Box>
           <form>
-          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-          <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-          <select name='startTime' style={{marginRight: '9.5vw'}}>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
+          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
+          <select name='startTime' style={{marginRight: '9.5vw'}} value={mon} onChange={(e) => handleMon(e.target.value)} >
+              <option value="9">09:00 AM</option>
+              <option value="10">10:00 AM</option>
+              <option value="11">11:00 AM</option>
+              <option value="12">12:00 PM</option>
+              <option value="13">01:00 PM</option>
+              <option value="14">02:00 PM</option>
+              <option value="15">03:00 PM</option>
+              <option value="16">04:00 PM</option>
+              <option value="17">05:00 PM</option>
+              <option value="18">06:00 PM</option>
           </select>
-          <select name='endTime'>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-              <option value="08:00 PM">08:00 PM</option>
-          </select>
+          <Button onClick={handleMonSubmit}><Typography>Update Slot</Typography></Button>
           </form>
         </Box>
         )}
         {tabIndex === 1 && (
           <Box>
           <form>
-          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-          <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-          <select name='startTime' style={{marginRight: '9.5vw'}}>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
+          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
+          <select name='startTime' style={{marginRight: '9.5vw'}} value={tue} onChange={(e) => handleTue(e.target.value)} >
+              <option value="9">09:00 AM</option>
+              <option value="10">10:00 AM</option>
+              <option value="11">11:00 AM</option>
+              <option value="12">12:00 PM</option>
+              <option value="13">01:00 PM</option>
+              <option value="14">02:00 PM</option>
+              <option value="15">03:00 PM</option>
+              <option value="16">04:00 PM</option>
+              <option value="17">05:00 PM</option>
+              <option value="18">06:00 PM</option>
           </select>
-          <select name='endTime'>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-              <option value="08:00 PM">08:00 PM</option>
-          </select>
+          <Button onClick={handleTueSubmit}><Typography>Update Slot</Typography></Button>
           </form>
         </Box>
         )}
         {tabIndex === 2 && (
           <Box>
-            <form>
-            <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-            <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-            <select name='startTime' style={{marginRight: '9.5vw'}}>
-                <option value="09:00 AM">09:00 AM</option>
-                <option value="10:00 AM">10:00 AM</option>
-                <option value="11:00 AM">11:00 AM</option>
-                <option value="12:00 PM">12:00 PM</option>
-                <option value="01:00 PM">01:00 PM</option>
-                <option value="02:00 PM">02:00 PM</option>
-                <option value="03:00 PM">03:00 PM</option>
-                <option value="04:00 PM">04:00 PM</option>
-                <option value="05:00 PM">05:00 PM</option>
-                <option value="06:00 PM">06:00 PM</option>
-                <option value="07:00 PM">07:00 PM</option>
-            </select>
-            <select name='endTime'>
-                <option value="10:00 AM">10:00 AM</option>
-                <option value="11:00 AM">11:00 AM</option>
-                <option value="12:00 PM">12:00 PM</option>
-                <option value="01:00 PM">01:00 PM</option>
-                <option value="02:00 PM">02:00 PM</option>
-                <option value="03:00 PM">03:00 PM</option>
-                <option value="04:00 PM">04:00 PM</option>
-                <option value="05:00 PM">05:00 PM</option>
-                <option value="06:00 PM">06:00 PM</option>
-                <option value="07:00 PM">07:00 PM</option>
-                <option value="08:00 PM">08:00 PM</option>
-            </select>
-            </form>
-          </Box>
+          <form>
+          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
+          <select name='startTime' style={{marginRight: '9.5vw'}} value={wed} onChange={(e) => handleWed(e.target.value)} >
+              <option value="9">09:00 AM</option>
+              <option value="10">10:00 AM</option>
+              <option value="11">11:00 AM</option>
+              <option value="12">12:00 PM</option>
+              <option value="13">01:00 PM</option>
+              <option value="14">02:00 PM</option>
+              <option value="15">03:00 PM</option>
+              <option value="16">04:00 PM</option>
+              <option value="17">05:00 PM</option>
+              <option value="18">06:00 PM</option>
+          </select>
+          <Button onClick={handleWedSubmit}><Typography>Update Slot</Typography></Button>
+          </form>
+        </Box>
         )}
         {tabIndex === 3 && (
           <Box>
           <form>
-          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-          <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-          <select name='startTime' style={{marginRight: '9.5vw'}}>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
+          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
+          <select name='startTime' style={{marginRight: '9.5vw'}} value={thurs} onChange={(e) => handleThurs(e.target.value)} >
+              <option value="9">09:00 AM</option>
+              <option value="10">10:00 AM</option>
+              <option value="11">11:00 AM</option>
+              <option value="12">12:00 PM</option>
+              <option value="13">01:00 PM</option>
+              <option value="14">02:00 PM</option>
+              <option value="15">03:00 PM</option>
+              <option value="16">04:00 PM</option>
+              <option value="17">05:00 PM</option>
+              <option value="18">06:00 PM</option>
           </select>
-          <select name='endTime'>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-              <option value="08:00 PM">08:00 PM</option>
-          </select>
+          <Button onClick={handleThursSubmit}><Typography>Update Slot</Typography></Button>
           </form>
         </Box>
         )}
         {tabIndex === 4 && (
           <Box>
           <form>
-          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-          <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-          <select name='startTime' style={{marginRight: '9.5vw'}}>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
+          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
+          <select name='startTime' style={{marginRight: '9.5vw'}} value={fri} onChange={(e) => handleFri(e.target.value)} >
+              <option value="9">09:00 AM</option>
+              <option value="10">10:00 AM</option>
+              <option value="11">11:00 AM</option>
+              <option value="12">12:00 PM</option>
+              <option value="13">01:00 PM</option>
+              <option value="14">02:00 PM</option>
+              <option value="15">03:00 PM</option>
+              <option value="16">04:00 PM</option>
+              <option value="17">05:00 PM</option>
+              <option value="18">06:00 PM</option>
           </select>
-          <select name='endTime'>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-              <option value="08:00 PM">08:00 PM</option>
-          </select>
+          <Button onClick={handleFriSubmit}><Typography>Update Slot</Typography></Button>
           </form>
         </Box>
         )}
         {tabIndex === 5 && (
           <Box>
           <form>
-          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-          <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-          <select name='startTime' style={{marginRight: '9.5vw'}}>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
+          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
+          <select name='startTime' style={{marginRight: '9.5vw'}} value={sat} onChange={(e) => handleSat(e.target.value)} >
+              <option value="9">09:00 AM</option>
+              <option value="10">10:00 AM</option>
+              <option value="11">11:00 AM</option>
+              <option value="12">12:00 PM</option>
+              <option value="13">01:00 PM</option>
+              <option value="14">02:00 PM</option>
+              <option value="15">03:00 PM</option>
+              <option value="16">04:00 PM</option>
+              <option value="17">05:00 PM</option>
+              <option value="18">06:00 PM</option>
           </select>
-          <select name='endTime'>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-              <option value="08:00 PM">08:00 PM</option>
-          </select>
+          <Button onClick={handleSatSubmit}><Typography>Update Slot</Typography></Button>
           </form>
         </Box>
         )}
         {tabIndex === 6 && (
           <Box>
           <form>
-          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-          <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-          <select name='startTime' style={{marginRight: '9.5vw'}}>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
+          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
+          <select name='startTime' style={{marginRight: '9.5vw'}} value={sun} onChange={(e) => handleSun(e.target.value)} >
+              <option value="9">09:00 AM</option>
+              <option value="10">10:00 AM</option>
+              <option value="11">11:00 AM</option>
+              <option value="12">12:00 PM</option>
+              <option value="13">01:00 PM</option>
+              <option value="14">02:00 PM</option>
+              <option value="15">03:00 PM</option>
+              <option value="16">04:00 PM</option>
+              <option value="17">05:00 PM</option>
+              <option value="18">06:00 PM</option>
           </select>
-          <select name='endTime'>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-              <option value="08:00 PM">08:00 PM</option>
-          </select>
-          </form>
-        </Box>
-        )}
-        {tabIndex === 7 && (
-          <Box>
-          <form>
-          <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Start Time</label>
-          <label style={{fontWeight:'bold'}} htmlFor='endTime'>End Time</label><br />
-          <select name='startTime' style={{marginRight: '9.5vw'}}>
-              <option value="09:00 AM">09:00 AM</option>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-          </select>
-          <select name='endTime'>
-              <option value="10:00 AM">10:00 AM</option>
-              <option value="11:00 AM">11:00 AM</option>
-              <option value="12:00 PM">12:00 PM</option>
-              <option value="01:00 PM">01:00 PM</option>
-              <option value="02:00 PM">02:00 PM</option>
-              <option value="03:00 PM">03:00 PM</option>
-              <option value="04:00 PM">04:00 PM</option>
-              <option value="05:00 PM">05:00 PM</option>
-              <option value="06:00 PM">06:00 PM</option>
-              <option value="07:00 PM">07:00 PM</option>
-              <option value="08:00 PM">08:00 PM</option>
-          </select>
+          <Button onClick={handleSunSubmit}><Typography>Update Slot</Typography></Button>
           </form>
         </Box>
         )}
