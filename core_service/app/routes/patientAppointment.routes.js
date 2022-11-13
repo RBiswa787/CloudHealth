@@ -1,9 +1,11 @@
 module.exports = app => {
-    const doctorAppointment = require("../controllers/patientAppointment.controller");
+    const patientAppointment = require("../controllers/patientAppointment.controller");
 
     let router = require("express").Router();
 
     app.use("/api/patientAppointment", router);
 
-    router.post("/createUpdate", doctorAppointment.createUpdate);
+    router.post("/createUpdate", patientAppointment.createUpdate);
+    
+    router.post("/get", patientAppointment.get);
 };

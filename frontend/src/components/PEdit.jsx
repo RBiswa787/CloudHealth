@@ -8,7 +8,7 @@ import {
     IconButton,
     Drawer,
     Link,
-    MenuItem,Grid, Paper,
+    MenuItem, Grid, Paper,
     CssBaseline,
   RadioGroup,
   FormLabel,
@@ -23,12 +23,13 @@ import { Avatar } from "@mui/material";
 import { ClassNames } from '@emotion/react';
 import axios from 'axios';
 
+
 const useStyles = makeStyles((theme) => {
     return ({
         paper: {
             width: '40vw',
             justifyContent: "center",
-           
+
         },
         heading: {
             display: "flex",
@@ -46,13 +47,13 @@ const useStyles = makeStyles((theme) => {
             paddingTop: "10%",
             paddingBottom: "2%",
             fontSize: "3vw",
-            fontFamily:"Times New Roman",
+            fontFamily: "Times New Roman",
         },
         form: {
             position: "absolute",
             left: "32vw",
-          padding: "2% 5% 0% 0%" ,
-          fontWeight: "bold",
+            padding: "2% 5% 0% 0%",
+            fontWeight: "bold",
         }
     });
 });
@@ -60,7 +61,7 @@ const PEdit = () => {
     const username = window.localStorage.getItem('username');
     const classes = useStyles();
 
-    const [photoURL, setphotoURL] = useState("https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+    const [photoURL, setPhotoURL] = useState("https://s3-alpha-sig.figma.com/img/8b15/e6f1/f05a663a6ac1333274ede5ed28bc2b10?Expires=1668384000&Signature=CGenkQAnhJFP5dTol7UqdZf0ttIjJyOxrCl1UwXP-1xG2OCyuWTz5Ph5-jBrOT-eQOtl7jHi0IIPVFHX0X0aiiYRO8X6rTPOd-iw5vbsyPqgnOzgo4lyR9ulebn7hl3-mtNYtljlEKAALLwdHs49qDeNgJC2ODDgIzXq~nNPBT1t0e1PjngCaIwVp~xH9SLGgwGnX0fjyIxQ~gk1jrWcyz8~K8EGGn235Ontv6thc~T9CBlP-mfYgsc2gLoP90g3QdHkaQ4CVWEd92BuAoQvFwqN-PXY6ZqK60sJUyeDFeng~xtL2DWhv~4Wt9t~nNK-lcy9EZAi1WxfKr8x16EJgw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [name, setName] = useState("");
     const [dob, setDOB] = useState("");
     const [gender, setGender] = useState("");
@@ -77,17 +78,15 @@ const PEdit = () => {
 
     const [photoURLError, setPhotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
-    const [dobError,setDOBError] = useState(false);
+    const [dobError, setDOBError] = useState(false);
     const [genderError, setGenderError] = useState(false);
     const [bloodGroupError, setBloodGroupError] = useState(false);
     const [emailError, setEmailError] = useState(false);
-
-    
     const handlePhotoURL = (e) => {
         if (photoURLError == true && e.length > 0) {
             setPhotoURLError(false);
         }
-        setphotoURL(e);
+        setPhotoURL(e);
     };
     const handleName = (e) => {
         if (nameError == true && e.length > 0) {
@@ -295,6 +294,7 @@ const PEdit = () => {
        </Grid>
     </>
   )
+
 }
 
 export default PEdit

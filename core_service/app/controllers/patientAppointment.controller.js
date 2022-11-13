@@ -37,3 +37,22 @@ exports.createUpdate = (req, res) => {
             }
         )
 };
+
+exports.get = (req, res) => {
+    if(!req.body.patientUsername){
+        res.statusCode = 400;
+        return res.send({message: "Patient username cannot be empty!"});
+    }
+    PatientAppointment.findOne({patientUsername: req.body.patientUsername})
+        .then(
+            data => {
+                if(!data){
+                    res.statusCode = 501;
+                    return res.send({message: "Patient Username not present"});
+                }
+                else{
+                    res.send(data);
+                }
+            }
+        )
+}

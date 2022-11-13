@@ -8,8 +8,9 @@ import {
     IconButton,
     Drawer,
     Link,
-    MenuItem,Grid, Paper,
+    MenuItem, Grid, Paper,
     CssBaseline,
+
   RadioGroup,
   FormLabel,
   FormGroup,
@@ -21,6 +22,7 @@ import { Avatar } from "@mui/material";
   import { useState, useEffect } from "react";
   import { Link as RouterLink } from "react-router-dom";
 import { ClassNames } from '@emotion/react';
+
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => {
         paper: {
             width: '40vw',
             justifyContent: "center",
-           
+
         },
         heading: {
             display: "flex",
@@ -46,13 +48,13 @@ const useStyles = makeStyles((theme) => {
             paddingTop: "10%",
             paddingBottom: "2%",
             fontSize: "3vw",
-            fontFamily:"Times New Roman",
+            fontFamily: "Times New Roman",
         },
         form: {
             position: "absolute",
             left: "32vw",
-          padding: "2% 5% 0% 0%" ,
-          fontWeight: "bold",
+            padding: "2% 5% 0% 0%",
+            fontWeight: "bold",
         },
         tab: {
             backgroundColor: "#400CCC",
@@ -64,21 +66,34 @@ const useStyles = makeStyles((theme) => {
             border: "1px solid #ccc",
             position: "relative",
             borderRadius: "5px",
-          }
-          
-          ,dropdownInput:  {
+        }
+
+        , dropdownInput: {
             padding: "5px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             userSelect: "none",
-          }
+        }
     });
 });
 const DEdit = () => {
     const username = window.localStorage.getItem('username');
     const classes = useStyles();
-    const [photoURL, setphotoURL] = useState("https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+
+    const [displayPhotoURL, setDisplayPhotoURL] = useState("https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+    const [displayName, setDisplayName] = useState("hello");
+    const [displayDob, setDisplayDOB] = useState("05/01/2002");
+    const [displayGender, setDisplayGender] = useState("tbd");
+    const [displayEmail, setDisplayEmail] = useState("");
+    const [displayContact, setDisplayContact] = useState("");
+    const [displayExperience, setDisplayExperience] = useState("");
+    const [displayQualification, setDisplayQualification] = useState("");
+    const [displayPublicDescription, setDisplayPublicDescription] = useState("");
+    const [displaySpecialisation, setDisplaySpecialisation] = useState();
+    const [displayRegisterNo, setDisplayRegisterNo] = useState();
+
+    const [photoURL, setPhotoURL] = useState("https://s3-alpha-sig.figma.com/img/9c75/b113/fcd4404eaf49b8a9999e900d320a3dd3?Expires=1668384000&Signature=cvufgVu5p7uMn~nN-nnSNKRGK97j~uNWC~LeAT4~ktkfiSCLhvcHBe4IgNCT-jjfKMMcAEASXlLHhc-eOD7YbJwwLACAI49gityQV4C-yQoSEutbe0EjaNlg~npsTcNYFmWFsBc2ZTa2wPgzW5HSh9WCEIFyvstol85hLGxji5rJx6QOJ6V6tICEV~QND-tk-lueumgnAcgLYwKgF5gZOnSDdcOhv0NT63xFnzN4NJubFq5gt5sq15A4XZDLTJ44LZTnu32p3hlmxy7UjIOXaAMDcm~MwkC8rpjGe2h9jYSU3gbl3wVqHVyT2q5KtRXv6TseDZyoQJ7~zsxbU-1XTg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
     const [name, setName] = useState("");
     const [dob, setDOB] = useState("");
     const [gender, setGender] = useState("");
@@ -114,14 +129,14 @@ const DEdit = () => {
 
     const [photoURLError, setphotoURLError] = useState(false);
     const [nameError, setNameError] = useState(false);
-    const [dobError,setDOBError] = useState(false);
+    const [dobError, setDOBError] = useState(false);
     const [genderError, setGenderError] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [contactError, setContactError] = useState(false);
     const [experienceError, setExperienceError] = useState(false);
     const [qualificationError, setQualificationError] = useState(false);
     const [publicDescriptionError, setPublicDescriptionError] = useState(false);
-    
+
     const [tabIndex, setTabIndex] = useState(0);
 
     const handleMon = (e) => {
@@ -188,14 +203,16 @@ const DEdit = () => {
     }
 
     const handleTabChange = (event, newTabIndex) => {
-    setTabIndex(newTabIndex);}
+        setTabIndex(newTabIndex);
+    }
 
     const handlePhotoURL = (e) => {
         if (photoURLError == true && e.length > 0) {
-            setphotoURLError(false);
+            setPhotoURLError(false);
         }
-        setphotoURL(e);
+        setPhotoURL(e);
     };
+
     const handleName = (e) => {
         if (nameError == true && e.length > 0) {
             setNameError(false);
