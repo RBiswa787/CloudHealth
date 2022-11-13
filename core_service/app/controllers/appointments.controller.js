@@ -11,7 +11,11 @@ exports.create = (req, res) => {
         appointmentId: req.body.appointmentId,
         patientUsername: req.body.patientUsername,
         doctorUsername: req.body.doctorUsername,
-        dateTime: req.body.dateTime
+        date: req.body.date,
+        time: req.body.time,
+        patient: req.body.patient,
+        doctor: req.body.doctor,
+        spec: req.body.spec
     });
 
     Appointment.findOne({appointmentId: appointment.appointmentId})
@@ -51,4 +55,17 @@ exports.get = (req, res) => {
                 }
             }
         )
+}
+
+exports.filter = (req,res) => {
+    if(!req.body.appid){
+        res.statusCode = 400;
+        return res.send({message: "Appointment IDs cannot be empty"});
+    }
+    Appointment.find({appointmentId: {$in: req.body.appid}})
+    .then(
+        data => {
+            res.send(data);
+        }
+    )
 }

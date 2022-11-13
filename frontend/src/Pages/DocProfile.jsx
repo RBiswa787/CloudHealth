@@ -100,8 +100,20 @@ const useStyles = makeStyles((theme) => {
         }
     });
 });
+
+function makeToken(length) {
+    let result           = '';
+    let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let charactersLength = characters.length;
+    for (let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
 const DocProfile = () => {
     const doc_username = window.localStorage.getItem('doc_username');
+    const username = window.localStorage.getItem('username');
     const classes = useStyles();
     const [tabIndex, setTabIndex] = useState(0);
 
@@ -120,6 +132,8 @@ const DocProfile = () => {
     const [Tqualification, setTQualification] = useState("");
     const [TpublicDescription, setTPublicDescription] = useState("");
     const [Tslots, setTSlots] = useState([]);
+    const[bookedDay,setBookedDay] = useState("");
+    const[bookedSlot,setBookedSlot]  =useState("");
     
     
     let days = [];
@@ -147,9 +161,43 @@ const DocProfile = () => {
     }
     console.log(localslots);
 
+    const handleBook = (index) => {
+        let idx = index
+        setBookedDay(tabIndex);
+        setBookedSlot(idx);
+    }
+
+    const handleConfirm = () => {
+        let name = window.localStorage.getItem('name');
+        let id = makeToken(7);
+        axios.post("http://localhost:8787/api/appointment/create",
+        {
+            "appointmentId": id,
+            "patientUsername": username,
+            "doctorUsername": doc_username,
+            "date": days[bookedDay],
+            "time": localslots[tabIndex][bookedSlot],
+            "doctor": Tname,
+            "patient": name,
+            "spec": Tspec,
+        })
+        .then((res)=>{console.log(res)});
+        axios.post("http://localhost:8787/api/patientAppointment/createUpdate",
+        {
+            "patientUsername": username,
+            "appointmentId":[id]
+        })
+        .then((res)=>{console.log(res)});
+        axios.post("http://localhost:8787/api/doctorAppointment/createUpdate",
+        {
+            "doctorUsername": doc_username,
+            "appointmentId":[id]
+        })
+        .then((res)=>{console.log(res)})
+    }
     
     useEffect(() => {
-        axios.post("http://localhost:8787/api/doctor/find",{"username":doc_username})
+        axios.post("http://localhost:8787/api/doctor/get",{"username":doc_username})
         .then(res => {
             setTphotoURL(res.data.photo_url);
             setTName(res.data.name);
@@ -163,6 +211,7 @@ const DocProfile = () => {
             setTSlots(res.data.slots);
             setTPublicDescription(res.data.description);
             setTSlots(res.data.slots);
+            console.log(Tslots);
         });
     },[]);
   return (
@@ -201,14 +250,14 @@ const DocProfile = () => {
                 Tslots[tabIndex]!=0 &&
 
                 (localslots[tabIndex].map(
-                    (record) => (
-                        <Button variant="contained" style={{border:"1px solid blue",margin:" 2% 5%"}}>{record}</Button>
+                    (record,index) => (
+                        <Button variant="contained" style={{border:"1px solid blue",margin:" 2% 5%"}} onClick={() => handleBook(index)}>{record}</Button>
                     )
                 ))
             }
         </Grid>
         <Grid style={{padding:"2%"}} container justify="center" >
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleConfirm}>
         Confirm
         </Button>
        </Grid>

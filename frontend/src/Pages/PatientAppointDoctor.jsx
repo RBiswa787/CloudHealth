@@ -144,17 +144,19 @@ const PatientAppointDoctor = () => {
     const [Tgender, setTGender] = useState("");
     const [TbloodGroup, setTBloodGroup] = useState("");
     const [Temail, setTEmail] = useState("");
+    const [upcoming, setUpcoming] = useState([]);
 
     const [alldocs, setAlldocs] = useState([]);
     
     const handleView = (param) => {
         window.localStorage.setItem("doc_username",param);
+        window.localStorage.setItem('name',Tname);
         console.log("hello")
         console.log(param);
         navigate('/docProfile');
     }
     useEffect(() => {
-        axios.post("http://localhost:8787/api/patient/find",{"username":username})
+        axios.post("http://localhost:8787/api/patient/get",{"username":username})
         .then(res => {
             setTphotoURL(res.data.photo_url);
             setTName(res.data.name);
@@ -167,7 +169,22 @@ const PatientAppointDoctor = () => {
         .then(res => {
             setAlldocs(res.data);
             console.log(res.data);
-        })
+        });
+        console.log(username);
+        axios.post("http://localhost:8787/api/patientAppointment/get",{"patientUsername":username})
+        .then(
+            res => {
+                axios.post("http://localhost:8787/api/appointment/filter",{"appid":res.data.appointmentId})
+                .then(
+                    resp => {
+                        console.log(resp);
+                        setUpcoming(resp.data);
+                    }
+                );
+            }
+        );
+        
+        
     },[]);
   return (
     <>
@@ -186,10 +203,10 @@ const PatientAppointDoctor = () => {
         <Grid className={classes.grid2} container>
             <div style={{marginBottom: "2%"}}>Upcoming Appointments</div>               
             {
-                appointments.map((record) => (
+                upcoming.map((record) => (
                 <Paper className={classes.paper} elevation={5}>
                     <Grid>
-                        <Typography><b>{record.docName}</b>&emsp;&emsp;&emsp;{record.speciality}&emsp;&emsp;&emsp;&emsp;<b>{record.date}</b>&emsp;&emsp;&emsp;&emsp;<b>{record.time}</b>&emsp;&emsp;&emsp;&emsp;<Button variant="contained" style={{border:"1px solid blue"}}>Join</Button></Typography>
+                        <Typography><b>{record.doctor}</b>&emsp;&emsp;&emsp;{record.spec}&emsp;&emsp;&emsp;&emsp;<b>{record.date}</b>&emsp;&emsp;&emsp;&emsp;<b>{record.time}</b>&emsp;&emsp;&emsp;&emsp;<Button variant="contained" style={{border:"1px solid blue"}}>Join</Button></Typography>
                         
                     </Grid>
                 </Paper>

@@ -7,5 +7,7 @@ module.exports = app => {
 
     router.post("/create", Appointment.create);
 
-    router.post("/get", Appointment.get)
+    router.post("/get", Appointment.get);
+
+    router.post("/filter", Appointment.filter);
 };

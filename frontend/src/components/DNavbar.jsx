@@ -127,7 +127,7 @@ const getList = () => (
       <Toolbar className={toolbar}>
           
         {femmecubatorLogo}
-        <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/docProfile')}}>
+        <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/doctorDash')}}>
           <Typography>Dashboard</Typography>
         </Button>
         <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/doctorEditProfile')}}>

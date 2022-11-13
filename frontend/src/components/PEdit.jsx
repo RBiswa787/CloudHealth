@@ -136,7 +136,7 @@ const PEdit = () => {
     };
 
     useEffect(() => {
-        axios.post("http://localhost:8787/api/patient/find",{"username":username})
+        axios.post("http://localhost:8787/api/patient/get",{"username":username})
         .then(res => {
             setTphotoURL(res.data.photo_url);
             setTName(res.data.name);
@@ -145,7 +145,7 @@ const PEdit = () => {
             setTBloodGroup(res.data.blood_group);
             setTEmail(res.data.email);
 
-            setphotoURL(res.data.photo_url);
+            setPhotoURL(res.data.photo_url);
             setName(res.data.name);
             setDOB(res.data.dob);
             setGender(res.data.gender);

@@ -1,14 +1,14 @@
 import { Typography,Grid } from '@material-ui/core'
 import React from 'react'
 import DNavbar from '../components/DNavbar';
-import DEdit from '../components/DEdit';
-const DoctorEditProfile = () => {
+import DDash from '../components/DDash';
+const DoctorDash = () => {
   return (
     <>
        <DNavbar></DNavbar>
-       <DEdit></DEdit>      
+       <DDash></DDash>      
     </>
   )
 }
 
-export default DoctorEditProfile
+export default DoctorDash

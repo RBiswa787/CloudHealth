@@ -293,7 +293,7 @@ const DEdit = () => {
     };
 
     useEffect(() => {
-        axios.post("http://localhost:8787/api/doctor/find",{"username":username})
+        axios.post("http://localhost:8787/api/doctor/get",{"username":username})
         .then(res => {
             setTphotoURL(res.data.photo_url);
             setTName(res.data.name);
@@ -308,7 +308,7 @@ const DEdit = () => {
             setTPublicDescription(res.data.description);
             setTSlots(res.data.slots);
 
-            setphotoURL(res.data.photo_url);
+            setPhotoURL(res.data.photo_url);
             setName(res.data.name);
             setReg(res.data.reg_num);
             setSpec(res.data.specialisation);

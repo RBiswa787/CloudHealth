@@ -8,7 +8,11 @@ module.exports = mongoose => {
             },
             patientUsername: {type: String},
             doctorUsername: {type: String},
-            dateTime: {type: Date}
+            date: {type: String},
+            time: {type: String},
+            patient: {type: String},
+            doctor: {type: String},
+            spec: {type: String}
         }
     );
 
