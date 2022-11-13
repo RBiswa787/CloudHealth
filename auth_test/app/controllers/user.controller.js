@@ -88,7 +88,7 @@ exports.findOne = (req, res) => {
                             }
                         );
                     res.statusCode = 200;
-                    return res.send({message: "Found",access:access_token});
+                    return res.send({message: "Found",access:access_token,isDoctor:data.isDoctor});
                 }
                 else{
                     res.statusCode = 203;

@@ -35,7 +35,7 @@ require("./app/routes/user.routes")(app);
 require("./app/routes/patient.routes")(app);
 require("./app/routes/doctor.routes")(app);
 require("./app/routes/appointments.routes")(app);
-require("./app/routes/doctorApointment.routes")(app);
+require("./app/routes/doctorAppointment.routes")(app);
 require("./app/routes/patientAppointment.routes")(app);
 
 app.get('/core',(req,res) => {

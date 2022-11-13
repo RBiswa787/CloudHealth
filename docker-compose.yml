@@ -44,21 +44,5 @@ services:
       - DB_PORT=$MONGODB_DOCKER_PORT
     stdin_open: true
     tty: true
-  ehr_service:
-    depends_on:
-      - mongodb
-    build: ./ehr_service
-    restart: unless-stopped
-    env_file: ./.env
-    ports:
-      - $NODE_EHR_LOCAL_PORT:$NODE_CORE_DOCKER_PORT
-    environment:
-      - DB_HOST=mongodb
-      - DB_USER=$MONGODB_USER
-      - DB_PASSWORD=$MONGODB_PASSWORD
-      - DB_NAME=$MONGODB_EHR_DATABASE
-      - DB_PORT=$MONGODB_DOCKER_PORT
-    stdin_open: true
-    tty: true
 volumes:
   db:

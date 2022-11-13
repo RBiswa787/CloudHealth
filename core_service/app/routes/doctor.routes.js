@@ -11,4 +11,6 @@ module.exports = app => {
 
     router.post("/find", doctor.get);
 
+    router.get("/findAll", doctor.findAll);
+
 };

@@ -98,3 +98,20 @@ exports.get = (req, res) => {
             res.send({ message: err.message});
         });
 };
+
+exports.findAll = (req, res) => {
+    const username = req.query.username;
+    let condition = username ? { username: { $regex: new RegExp(username), $options: "i" } } : {};
+
+    Doctor.find(condition)
+        .then(data => {
+            return res.send(data);
+        })
+        .catch(err => {
+            res.statusCode = 500;
+            return res.send({
+                message:
+                    err.message || "Some error occurred while retrieving doctors."
+          });
+        });
+};
