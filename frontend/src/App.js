@@ -8,6 +8,9 @@ import PatientAppointDoctor from './Pages/PatientAppointDoctor';
 import DocProfile from './Pages/DocProfile';
 import EHR from './Pages/EHR';
 import DoctorDash from './Pages/DoctorDash';
+
+import VideoConference from './Pages/PDF';
+import DocEHR from './Pages/DocEHR';
 function App() {
   return (
     <Routes>
@@ -18,6 +21,7 @@ function App() {
           <Route path={"/patientAppointDoctor"} element={<PatientAppointDoctor></PatientAppointDoctor>}/>
           <Route path={"/docProfile"} element={<DocProfile></DocProfile>}/>
           <Route path={"/EHR"} element={<EHR></EHR>}/>
+          <Route path={"/DocEHR"} element={<DocEHR></DocEHR>}/>
       </Routes>
   );
 }

@@ -17,7 +17,8 @@ module.exports = mongoose => {
             gender: {type: String},
             description: {type: String},
             photo_url: {type: String},
-            slots: {type: [Number]}
+            slots: {type: [Number]},
+            booked: {type: [[Number]]}
         }
     );
 

@@ -207,9 +207,6 @@ const DEdit = () => {
     }
 
     const handlePhotoURL = (e) => {
-        if (photoURLError == true && e.length > 0) {
-            setPhotoURLError(false);
-        }
         setPhotoURL(e);
     };
 

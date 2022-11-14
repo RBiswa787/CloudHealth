@@ -132,6 +132,7 @@ const DocProfile = () => {
     const [Tqualification, setTQualification] = useState("");
     const [TpublicDescription, setTPublicDescription] = useState("");
     const [Tslots, setTSlots] = useState([]);
+    const [Tbooked, setTBooked] = useState([[]]);
     const[bookedDay,setBookedDay] = useState("");
     const[bookedSlot,setBookedSlot]  =useState("");
     
@@ -170,6 +171,12 @@ const DocProfile = () => {
     const handleConfirm = () => {
         let name = window.localStorage.getItem('name');
         let id = makeToken(7);
+        Tbooked[bookedDay][bookedSlot] = 1;
+        axios.post("http://localhost:8787/api/doctor/updateBooking",{
+            "username": window.localStorage.getItem("doc_username"),
+            "booked":Tbooked
+        })
+        .then(res=>{console.log(res)});
         axios.post("http://localhost:8787/api/appointment/create",
         {
             "appointmentId": id,
@@ -180,6 +187,7 @@ const DocProfile = () => {
             "doctor": Tname,
             "patient": name,
             "spec": Tspec,
+            "request":0
         })
         .then((res)=>{console.log(res)});
         axios.post("http://localhost:8787/api/patientAppointment/createUpdate",
@@ -211,6 +219,7 @@ const DocProfile = () => {
             setTSlots(res.data.slots);
             setTPublicDescription(res.data.description);
             setTSlots(res.data.slots);
+            setTBooked(res.data.booked);
             console.log(Tslots);
         });
     },[]);
@@ -251,7 +260,11 @@ const DocProfile = () => {
 
                 (localslots[tabIndex].map(
                     (record,index) => (
-                        <Button variant="contained" style={{border:"1px solid blue",margin:" 2% 5%"}} onClick={() => handleBook(index)}>{record}</Button>
+                        
+                          Tbooked[tabIndex][index]==0 && (
+                        <Button variant="contained" style={{border:"1px solid blue",margin:" 2% 5%"}} onClick={() => handleBook(index)}>{record}</Button>)
+                         
+                             
                     )
                 ))
             }

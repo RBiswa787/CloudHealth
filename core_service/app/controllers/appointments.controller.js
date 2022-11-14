@@ -15,7 +15,8 @@ exports.create = (req, res) => {
         time: req.body.time,
         patient: req.body.patient,
         doctor: req.body.doctor,
-        spec: req.body.spec
+        spec: req.body.spec,
+        request: req.body.request
     });
 
     Appointment.findOne({appointmentId: appointment.appointmentId})
@@ -69,3 +70,18 @@ exports.filter = (req,res) => {
         }
     )
 }
+
+exports.updateRequest = (req, res) => {
+    Appointment.findOneAndUpdate({appointmentId: req.body.id}, {
+        $set: {
+            request: req.body.request
+        }
+    })
+        .then(res.send("Updated Successfully!"))
+        .catch((err) => {
+            res.statusCode = 501;
+            res.send(err.message);
+        })
+
+
+};

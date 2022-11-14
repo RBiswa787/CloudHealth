@@ -8,4 +8,6 @@ module.exports = app => {
     router.post("/create", ehr.create);
 
     router.post("/get", ehr.get);
+
+    
   };

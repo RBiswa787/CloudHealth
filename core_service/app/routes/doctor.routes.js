@@ -13,4 +13,6 @@ module.exports = app => {
 
     router.get("/findAll", doctor.findAll);
 
+    router.post("/updateBooking", doctor.updateBooking);
+
 };

@@ -20,7 +20,8 @@ exports.create = (req,res) => {
         gender: req.body.gender,
         description: req.body.description,
         photo_url: req.body.photo_url,
-        slots: req.body.slots
+        slots: req.body.slots,
+        booked: req.body.booked
     });
 
     Doctor.findOne({username: doctor.username})
@@ -114,4 +115,16 @@ exports.findAll = (req, res) => {
                     err.message || "Some error occurred while retrieving doctors."
           });
         });
+};
+
+exports.updateBooking = (req,res) => {
+    Doctor.findOneAndUpdate({username:req.body.username},{$set: {
+        booked: req.body.booked
+    }})
+    .then(res.send("Updated Successfully!"))
+    .catch((err) => {res.statusCode = 501;
+    res.send(err.message); 
+    })
+    
+    
 };

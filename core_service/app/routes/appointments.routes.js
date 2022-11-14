@@ -10,4 +10,6 @@ module.exports = app => {
     router.post("/get", Appointment.get);
 
     router.post("/filter", Appointment.filter);
+    
+    router.post("/updateRequest", Appointment.updateRequest);
 };

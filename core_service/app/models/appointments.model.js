@@ -12,7 +12,8 @@ module.exports = mongoose => {
             time: {type: String},
             patient: {type: String},
             doctor: {type: String},
-            spec: {type: String}
+            spec: {type: String},
+            request: {type: Number}
         }
     );
 

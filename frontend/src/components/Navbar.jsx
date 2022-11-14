@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
     AppBar,
     Toolbar,
@@ -105,21 +106,40 @@ import { Avatar } from "@mui/material";
     });
   
     const { mobileView, drawerOpen } = state;
-  
+    const username = window.localStorage.getItem('username');
+    const [upcoming,setUpcoming] = useState([]);
+
+    const handleAccept = (param) => {
+      axios.post("http://localhost:8787/api/appointment/updateRequest", {
+        "id": param,
+        "request": 2
+      })
+      .then(res => {console.log(res)});
+      window.location.reload();
+    }
+
+    const handleDecline = (param) => {
+      axios.post("http://localhost:8787/api/appointment/updateRequest", {
+        "id": param,
+        "request": 0
+      })
+      .then(res => {console.log(res)});
+      window.location.reload();
+    }
     useEffect(() => {
-      const setResponsiveness = () => {
-        return window.innerWidth < 900
-          ? setState((prevState) => ({ ...prevState, mobileView: true }))
-          : setState((prevState) => ({ ...prevState, mobileView: false }));
-      };
-  
-      setResponsiveness();
-  
-      window.addEventListener("resize", () => setResponsiveness());
-  
-      return () => {
-        window.removeEventListener("resize", () => setResponsiveness());
-      };
+      axios.post("http://localhost:8787/api/patientAppointment/get",{"patientUsername":username})
+        .then(
+            res => {
+                axios.post("http://localhost:8787/api/appointment/filter",{"appid":res.data.appointmentId})
+                .then(
+                    resp => {
+                      console.log("hello");
+                        console.log(resp);
+                        setUpcoming(resp.data);
+                    }
+                );
+            }
+        )
     }, []);
   
     const displayDesktop = () => {
@@ -148,8 +168,35 @@ import { Avatar } from "@mui/material";
             </IconButton>
            
             <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
-                  {getList()}
-                </Drawer>
+            {
+
+                (upcoming.map(
+                    (record) => (
+                      (record.request==1 || record.request==2) &&
+                      <>
+                      <Paper>
+                        <Typography>{record.doctor} is Requesting access for EHR</Typography>
+                        {
+                          record.request == 1 &&
+                        <>
+                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"green"}} onClick={()=>{handleAccept(record.appointmentId)}}>Accept</Button>
+                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"red"}} onClick={()=>{handleDecline(record.appointmentId)}}>Decline</Button>
+                        </>
+                        } 
+                        {
+                          record.request == 2 &&
+                        <>
+                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"yellow"}} onClick={()=>{handleDecline(record.appointmentId)}}>Revoke</Button>
+                        </>
+                        } 
+                      </Paper>
+                      </>
+                    )
+                ))
+                
+                
+            }
+            </Drawer>
         </Toolbar>
       );
     };

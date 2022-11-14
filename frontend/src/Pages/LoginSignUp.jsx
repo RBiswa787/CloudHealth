@@ -186,7 +186,8 @@ const LoginSignUp = () => {
                                         "gender": "not yet updated",
                                         "description": "not yet updated",
                                         "photo_url": "not yet updated",
-                                        "slots": [0,0,0,0,0,0,0]
+                                        "slots": [0,0,0,0,0,0,0],
+                                        "booked": [[0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0]]
                                     }
                                 })
                                 .then((re) => {
@@ -271,6 +272,11 @@ const LoginSignUp = () => {
                         })
                         .then((re) => {
                             if(re.status == 200){
+                                var payload = {
+                                    "patientUsername":signUsername,
+                                    "ehr": []}
+                                    axios.post("http://localhost:8989/api/ehr/create",payload)
+                                    .then(r => {console.log(r)});
                                 navigate("/patientEditProfile");
                             }
                             else{

@@ -11,30 +11,32 @@ import {
     MenuItem, Grid, Paper,
     CssBaseline,
 
-  RadioGroup,
-  FormLabel,
-  FormGroup,
-  FormControl,
-  FormControlLabel, TextField,Tabs,Tab,Box
-  } from "@material-ui/core";
-  import MenuIcon from "@material-ui/icons/Menu";
-import { Avatar } from "@mui/material";
-  import { useState, useEffect } from "react";
-  import { Link as RouterLink } from "react-router-dom";
-import { ClassNames } from '@emotion/react';
+    RadioGroup,
+    FormLabel,
+    FormGroup,
+    FormControl,
+    FormControlLabel, TextField, Tabs, Tab, Box
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import {Avatar} from "@mui/material";
+import {useState, useEffect} from "react";
+import {Link as RouterLink} from "react-router-dom";
+import {ClassNames} from '@emotion/react';
+import {useNavigate} from 'react-router-dom';
 
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
     return ({
         paper: {
-            width: '40vw',
-            justifyContent: "center",
-
+            padding: "2% 5%",
+            borderLeft: "10px solid #33ccff",
+            borderRadius: "10px",
+            marginBottom: "1%",
         },
         heading: {
             display: "flex",
-            marginTop: "10%",
+            // marginTop: "10%",
             color: "#06283D",
             // fontSize: "100%",
             fontFamily: "Arvo, serif",
@@ -45,13 +47,13 @@ const useStyles = makeStyles((theme) => {
             fontSize: "20px",
             display: "flex",
             flexDirection: "column",
-            marginBottom: "5%",
+            marginBottom: "5%"
         },
         grid1: {
-            paddingTop: "10%",
+            paddingTop: "5%",
             paddingBottom: "5%",
             fontSize: "3vw",
-            fontFamily:"Times New Roman",
+            fontFamily: "Times New Roman",
         },
         grid3: {
             width: "50vw",
@@ -85,6 +87,7 @@ const useStyles = makeStyles((theme) => {
     });
 });
 const DEdit = () => {
+    const navigate = useNavigate();
     const username = window.localStorage.getItem('username');
     const classes = useStyles();
 
@@ -100,14 +103,14 @@ const DEdit = () => {
     const [experience, setExperience] = useState("");
     const [qualification, setQualification] = useState("");
     const [publicDescription, setPublicDescription] = useState("");
-    const [slots, setSlots] = useState([0,0,0,0,0,0,0]);
-    const [mon,setMon] = useState(9);
-    const [tue,setTue] = useState(9);
-    const [wed,setWed] = useState(9);
-    const [thurs,setThurs] = useState(9);
-    const [fri,setFri] = useState(9);
-    const [sat,setSat] = useState(9);
-    const [sun,setSun] = useState(9);
+    const [slots, setSlots] = useState([0, 0, 0, 0, 0, 0, 0]);
+    const [mon, setMon] = useState(9);
+    const [tue, setTue] = useState(9);
+    const [wed, setWed] = useState(9);
+    const [thurs, setThurs] = useState(9);
+    const [fri, setFri] = useState(9);
+    const [sat, setSat] = useState(9);
+    const [sun, setSun] = useState(9);
 
 
     const [TphotoURL, setTphotoURL] = useState("");
@@ -134,85 +137,112 @@ const DEdit = () => {
     const [publicDescriptionError, setPublicDescriptionError] = useState(false);
 
     const [upcoming, setUpcoming] = useState([]);
-    const [alldocs, setAlldocs] = useState([]);
+    const [reqstatus,setReqstatus] = useState("Request");
 
+    const handleRequest = (param) => {
+        axios.post("http://localhost:8787/api/appointment/updateRequest", {
+        "id": param,
+        "request": 1
+      })
+      .then(res => {console.log(res)});
+      window.location.reload();
+    }
 
+    const handleView = (param) => {
+        window.localStorage.setItem("document",param);
+        navigate("/DocEHR")
+    }
 
     useEffect(() => {
-        axios.post("http://localhost:8787/api/doctor/get",{"username":username})
-        .then(res => {
-            setTphotoURL(res.data.photo_url);
-            setTName(res.data.name);
-            setTReg(res.data.reg_num);
-            setTSpec(res.data.specialisation);
-            setTDOB(res.data.dob);
-            setTGender(res.data.gender);
-            setTEmail(res.data.email);
-            setTExperience(res.data.experience);
-            setTQualification(res.data.qualification);
-            setTSlots(res.data.slots);
-            setTPublicDescription(res.data.description);
-            setTSlots(res.data.slots);
+        axios.post("http://localhost:8787/api/doctor/get", {"username": username})
+            .then(res => {
+                setTphotoURL(res.data.photo_url);
+                setTName(res.data.name);
+                setTReg(res.data.reg_num);
+                setTSpec(res.data.specialisation);
+                setTDOB(res.data.dob);
+                setTGender(res.data.gender);
+                setTEmail(res.data.email);
+                setTExperience(res.data.experience);
+                setTQualification(res.data.qualification);
+                setTSlots(res.data.slots);
+                setTPublicDescription(res.data.description);
+                setTSlots(res.data.slots);
 
-            setPhotoURL(res.data.photo_url);
-            setName(res.data.name);
-            setReg(res.data.reg_num);
-            setSpec(res.data.specialisation);
-            setDOB(res.data.dob);
-            setGender(res.data.gender);
-            setEmail(res.data.email);
-            setExperience(res.data.experience);
-            setQualification(res.data.qualification);
-            setSlots(res.data.slots);
-            setPublicDescription(res.data.description);
-            setSlots(res.data.slots);
-        });
-        axios.post("http://localhost:8787/api/doctorAppointment/get",{"doctorUsername":username})
-        .then(
-            res => {
-                axios.post("http://localhost:8787/api/appointment/filter",{"appid":res.data.appointmentId})
-                .then(
-                    resp => {
-                        console.log(resp);
-                        setUpcoming(resp.data);
+                setPhotoURL(res.data.photo_url);
+                setName(res.data.name);
+                setReg(res.data.reg_num);
+                setSpec(res.data.specialisation);
+                setDOB(res.data.dob);
+                setGender(res.data.gender);
+                setEmail(res.data.email);
+                setExperience(res.data.experience);
+                setQualification(res.data.qualification);
+                setSlots(res.data.slots);
+                setPublicDescription(res.data.description);
+                setSlots(res.data.slots);
+            });
+        axios.post("http://localhost:8787/api/doctorAppointment/get", {"doctorUsername": username})
+            .then(
+                res => {
+                    axios.post("http://localhost:8787/api/appointment/filter", {"appid": res.data.appointmentId})
+                        .then(
+                            resp => {
+                                console.log(resp);
+                                setUpcoming(resp.data);
+                            }
+                        );
+                }
+            );
+    }, []);
+
+
+    return (
+        <>
+            <Grid className={classes.grid1} container justify="center">
+                <Grid className={classes.grid1} container justify="center">
+                    <Avatar alt="Remy Sharp" src={TphotoURL}
+                            style={{width: '10vw', height: '10vw', margin: '2% 4% 0% 0%'}}/>
+
+                    <Paper elevation={0} style={{fontSize: '15px', width: '30vw', lineHeight: '1.8'}}>
+                        <div style={{fontSize: '25px'}}><b>{Tname}</b></div>
+                        <div>{Tqualification} {Tspec}</div>
+                        <div>Experience: {Texperience}</div>
+                        <div>Gender: {Tgender}</div>
+                        <div>Description: {TpublicDescription}</div>
+                    </Paper>
+
+                </Grid>
+                <Grid className={classes.grid2} container>
+                    <div style={{marginBottom: "2%"}}>Upcoming Appointments</div>
+                    {
+                        upcoming.map((record) => (
+                            <Paper className={classes.paper} elevation={5}>
+                                <Grid>
+                                    <Typography><b>{record.patient}</b>&emsp;&emsp;&emsp;&emsp;
+                                        <b>{record.date}</b>&emsp;&emsp;&emsp;&emsp;
+                                        <b>{record.time}</b>&emsp;&emsp;&emsp;&emsp;
+                                    <Button variant="contained" style={{border: "1px solid blue"}}>Join</Button>
+                                    {record.request == 0 && (
+                                        <Button variant="contained" style={{border: "1px solid blue"}} onClick={()=>{handleRequest(record.appointmentId)}}>Request</Button>
+                                    )}
+                                    {record.request == 1 && (
+                                        <Button variant="contained" style={{border: "1px solid blue"}}>Pending</Button>
+                                    )}
+                                    {record.request == 2 && (
+                                        <Button variant="contained" style={{border: "1px solid blue"}} onClick={()=>{handleView(record.patientUsername)}}>View</Button>
+                                    )}
+                                    
+                                    </Typography>
+
+                                </Grid>
+                            </Paper>
+                        ))
                     }
-                );
-            }
-        );
-    },[]);
-
-
-  return (
-    <>
-    <Grid className={classes.grid1} container justify="center" >
-        <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
-           
-           <Paper elevation={0} style={{fontSize:'15px',width:'30vw',lineHeight:'1.8'}}>
-              <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
-              <div>{Tqualification} {Tspec}</div>
-              <div>Experience: {Texperience}</div>
-              <div>Gender: {Tgender}</div>
-              <div>Description: {TpublicDescription}</div>
-            </Paper>
-            
-        </Grid>
-        <Grid className={classes.grid3} container>
-            <div style={{marginBottom: "2%"}}>Upcoming Appointments</div>               
-            {
-                upcoming.map((record) => (
-                <Paper className={classes.paper} elevation={5}>
-                    <Grid>
-                        <Typography><b>{record.patient}</b>&emsp;&emsp;&emsp;&emsp;<b>{record.date}</b>&emsp;&emsp;&emsp;&emsp;<b>{record.time}</b>&emsp;&emsp;&emsp;&emsp;<Button variant="contained" style={{border:"1px solid blue"}}>Join</Button></Typography>
-                        
-                    </Grid>
-                </Paper>
-                ))
-            }
-        </Grid>
-        </Grid>
-    </>
-  )
+                </Grid>
+            </Grid>
+        </>
+    )
 }
 
 export default DEdit

@@ -78,26 +78,13 @@ const useStyles = makeStyles((theme) => {
         }
     });
 });
-const EHR = () => {
-  const username = window.localStorage.getItem('username');
+const DocEHR = () => {
+  const username = window.localStorage.getItem('document');
+  const patient = window.localStorage.getItem('name');
     const classes = useStyles();
     const [URL, setURL] = useState("");
     const [notes, setNotes] = useState("");
     const [EHRdatum,setEHRdatum] = useState([]);
-    const handleURL = (e) => {
-        setURL(e);
-    };
-    const handleNotes = (e) => {
-        setNotes(e);
-    };
-    const handleUpdate = (e) => {
-      var payload = {
-      "patientUsername":username,
-      "ehr": [{"description":notes,"link":URL}]}
-      axios.post("http://localhost:8989/api/ehr/create",payload)
-      .then(res => {console.log()});
-      window.location.reload();
-    }
 
     const handleGo = (param) => {
       window.open(param,'_blank');
@@ -115,56 +102,8 @@ const EHR = () => {
     <Navbar></Navbar>
       <Grid className={classes.grid1} container justify="center" >
         <div>Electronic Health Record</div>
-        <div style={{fontSize:"18px"}}>
-            EHR #: 13214
-        </div>
+        <div>Patient: {patient}</div>
       </Grid>
-      <Grid className={classes.grid2} container>
-            <div>Upload New Document</div>               
-    </Grid>
-    <Grid style={{display:"flex",flexDirection:"column",alignItems:"center",marginBottom:"5vh"}} container>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>URL: </Typography>
-            <TextField className={classes.textField}
-                    id="URL"
-                    label="URL"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={URL}
-                    onChange={(e) => {
-                        handleURL(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Notes: </Typography>
-            <TextField className={classes.textField}
-                    id="notes"
-                    label="Notes"
-                    variant="standard"
-                    style={{
-                        display: "flex",
-                       
-                        justifySelf: "center",
-                        width: "50%",
-                    }}
-                    value={notes}
-                    onChange={(e) => {
-                        handleNotes(e.target.value);
-                    }}
-                />
-        </Grid>
-        <Grid style={{padding:"2%"}} container justify="center" >
-        <Button variant="contained" color="primary" onClick={handleUpdate}>
-        Upload
-        </Button>
-        </Grid>
-    </Grid>
     <Grid style={{marginBottom:"5%",padding:"0% 20%"}} container justify="center" >
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -191,4 +130,4 @@ const EHR = () => {
   )
 }
 
-export default EHR
+export default DocEHR
