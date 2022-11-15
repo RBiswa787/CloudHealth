@@ -167,26 +167,27 @@ import { Avatar } from "@mui/material";
               </Badge>
             </IconButton>
            
-            <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
+            <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)} >
+              <div style={{width:"500px"}}></div>
+              <Typography style={{alignSelf:"center",fontSize:23, marginTop:"3%",marginBottom:"2%", color:"purple",fontWeight:"bold"}}>Notifications</Typography>
             {
-
                 (upcoming.map(
                     (record) => (
                       (record.request==1 || record.request==2) &&
                       <>
-                      <Paper>
-                        <Typography>{record.doctor} is Requesting access for EHR</Typography>
+                      <Paper style={{marginTop:"2%",marginBottom:"1%"}}>
+                        <Typography style={{marginLeft:"5%"}}><b>{record.doctor}</b> is requesting access to Health Records.</Typography>
                         {
                           record.request == 1 &&
                         <>
-                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"green"}} onClick={()=>{handleAccept(record.appointmentId)}}>Accept</Button>
-                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"red"}} onClick={()=>{handleDecline(record.appointmentId)}}>Decline</Button>
+                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"white",color:"lightgreen",fontWeight:"bold"}} onClick={()=>{handleAccept(record.appointmentId)}}>Accept</Button>
+                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"white",color:"red",fontWeight:"bold"}} onClick={()=>{handleDecline(record.appointmentId)}}>Decline</Button>
                         </>
                         } 
                         {
                           record.request == 2 &&
                         <>
-                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"yellow"}} onClick={()=>{handleDecline(record.appointmentId)}}>Revoke</Button>
+                        <Button variant="contained" style={{margin:" 2% 5%",backgroundColor:"white",color:"orange",fontWeight:"bold"}} onClick={()=>{handleDecline(record.appointmentId)}}>Revoke</Button>
                         </>
                         } 
                       </Paper>

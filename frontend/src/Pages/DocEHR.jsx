@@ -16,6 +16,7 @@ import {
   FormControl,
   FormControlLabel, TextField
   } from "@material-ui/core";
+  import DNavbar from '../components/DNavbar';
   import {Link} from 'react-router-dom';
   import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -99,25 +100,25 @@ const DocEHR = () => {
     },[]);
   return (
     <>
-    <Navbar></Navbar>
+    <DNavbar></DNavbar>
       <Grid className={classes.grid1} container justify="center" >
         <div>Electronic Health Record</div>
-        <div>Patient: {patient}</div>
+        <div style={{fontSize:27,marginTop:"3%"}}>Patient: {patient}</div>
       </Grid>
     <Grid style={{marginBottom:"5%",padding:"0% 20%"}} container justify="center" >
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center"><b>Notes</b></TableCell>
-            <TableCell align="center"><b>View</b></TableCell>
+            <TableCell align="center"><span style={{fontSize:18}}><b>Notes</b></span></TableCell>
+            <TableCell align="center"><span style={{fontSize:18}}><b>Document</b></span></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {EHRdatum.map((row) => (
             <TableRow>
               <TableCell align="center">{row.description}</TableCell>
-              <TableCell align="center"><Button onClick={ () => handleGo(row.link)}>Open</Button></TableCell>
+              <TableCell align="center"><Button style={{color:"purple",fontWeight:"bold"}} onClick={ () => handleGo(row.link)}>Open</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>

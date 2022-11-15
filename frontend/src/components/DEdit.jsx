@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => {
             fontWeight: "bold",
         },
         tab: {
-            backgroundColor: "#400CCC",
+            backgroundColor: "purple",
             margin: "0% 1%",
             borderRadius: "10px",
         },
@@ -105,13 +105,13 @@ const DEdit = () => {
     const [qualification, setQualification] = useState("");
     const [publicDescription, setPublicDescription] = useState("");
     const [slots, setSlots] = useState([0,0,0,0,0,0,0]);
-    const [mon,setMon] = useState(9);
-    const [tue,setTue] = useState(9);
-    const [wed,setWed] = useState(9);
-    const [thurs,setThurs] = useState(9);
-    const [fri,setFri] = useState(9);
-    const [sat,setSat] = useState(9);
-    const [sun,setSun] = useState(9);
+    const [mon,setMon] = useState(0);
+    const [tue,setTue] = useState(0);
+    const [wed,setWed] = useState(0);
+    const [thurs,setThurs] = useState(0);
+    const [fri,setFri] = useState(0);
+    const [sat,setSat] = useState(0);
+    const [sun,setSun] = useState(0);
 
 
     const [TphotoURL, setTphotoURL] = useState("");
@@ -282,6 +282,7 @@ const DEdit = () => {
             "slots": slots
         })
         .then(res => {
+            alert("Updated Availability Slots");
             window.location.reload();
         })
         //async delay of 100 ms
@@ -327,14 +328,14 @@ const DEdit = () => {
         Edit Profile
       </Grid>
         <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 6% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'15px',width:'30vw',lineHeight:'1.8'}}>
               <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
-              <div>{Tqualification} {Tspec}</div>
-              <div>Experience: {Texperience}</div>
-              <div>Gender: {Tgender}</div>
-              <div>Description: {TpublicDescription}</div>
+              <div><b>{Tqualification} {Tspec}</b></div>
+              <div><b>Experience: </b>{Texperience}</div>
+              <div><b>Gender: </b>{Tgender}</div>
+              <div><b>Description: </b><justify>{TpublicDescription}</justify></div>
             </Paper>
             
         </Grid>
@@ -554,13 +555,13 @@ const DEdit = () => {
        </Grid>
        <Grid style={{padding:"2%"}} container justify="center" >
        <Tabs value={tabIndex} onChange={handleTabChange}>
-          <Tab className={classes.tab} label="Mon" />
-          <Tab className={classes.tab} label="Tue" />
-          <Tab className={classes.tab} label="Wed" />
-          <Tab className={classes.tab} label="Thu" />
-          <Tab className={classes.tab} label="Fri" />
-          <Tab className={classes.tab} label="Sat" />
-          <Tab className={classes.tab} label="Sun" />
+          <Tab className={classes.tab} style={{color:"white",fontWeight:"bold"}} label="Mon" />
+          <Tab className={classes.tab} style={{color:"white",fontWeight:"bold"}} label="Tue" />
+          <Tab className={classes.tab} style={{color:"white",fontWeight:"bold"}} label="Wed" />
+          <Tab className={classes.tab} style={{color:"white",fontWeight:"bold"}}label="Thu" />
+          <Tab className={classes.tab} style={{color:"white",fontWeight:"bold"}} label="Fri" />
+          <Tab className={classes.tab} style={{color:"white",fontWeight:"bold"}} label="Sat" />
+          <Tab className={classes.tab} style={{color:"white",fontWeight:"bold"}} label="Sun" />
         </Tabs>
         </Grid>
         <Grid style={{padding:"2%"}} container justify="center">
@@ -569,6 +570,7 @@ const DEdit = () => {
           <form>
           <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
           <select name='startTime' style={{marginRight: '9.5vw'}} value={mon} onChange={(e) => handleMon(e.target.value)} >
+          <option value="0">Not Available</option>
               <option value="9">09:00 AM</option>
               <option value="10">10:00 AM</option>
               <option value="11">11:00 AM</option>
@@ -589,6 +591,7 @@ const DEdit = () => {
           <form>
           <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
           <select name='startTime' style={{marginRight: '9.5vw'}} value={tue} onChange={(e) => handleTue(e.target.value)} >
+              <option value="0">Not Available</option>
               <option value="9">09:00 AM</option>
               <option value="10">10:00 AM</option>
               <option value="11">11:00 AM</option>
@@ -609,7 +612,7 @@ const DEdit = () => {
           <form>
           <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
           <select name='startTime' style={{marginRight: '9.5vw'}} value={wed} onChange={(e) => handleWed(e.target.value)} >
-              <option value="9">09:00 AM</option>
+             <option value="0">Not Available</option>
               <option value="10">10:00 AM</option>
               <option value="11">11:00 AM</option>
               <option value="12">12:00 PM</option>
@@ -629,6 +632,7 @@ const DEdit = () => {
           <form>
           <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
           <select name='startTime' style={{marginRight: '9.5vw'}} value={thurs} onChange={(e) => handleThurs(e.target.value)} >
+          <option value="0">Not Available</option>
               <option value="9">09:00 AM</option>
               <option value="10">10:00 AM</option>
               <option value="11">11:00 AM</option>
@@ -649,6 +653,7 @@ const DEdit = () => {
           <form>
           <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
           <select name='startTime' style={{marginRight: '9.5vw'}} value={fri} onChange={(e) => handleFri(e.target.value)} >
+          <option value="0">Not Available</option>
               <option value="9">09:00 AM</option>
               <option value="10">10:00 AM</option>
               <option value="11">11:00 AM</option>
@@ -669,6 +674,7 @@ const DEdit = () => {
           <form>
           <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
           <select name='startTime' style={{marginRight: '9.5vw'}} value={sat} onChange={(e) => handleSat(e.target.value)} >
+          <option value="0">Not Available</option>
               <option value="9">09:00 AM</option>
               <option value="10">10:00 AM</option>
               <option value="11">11:00 AM</option>
@@ -689,6 +695,7 @@ const DEdit = () => {
           <form>
           <label style={{marginRight: '10vw',fontWeight:'bold'}} htmlFor='startTime'>Available From</label>
           <select name='startTime' style={{marginRight: '9.5vw'}} value={sun} onChange={(e) => handleSun(e.target.value)} >
+          <option value="0">Not Available</option>
               <option value="9">09:00 AM</option>
               <option value="10">10:00 AM</option>
               <option value="11">11:00 AM</option>

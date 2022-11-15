@@ -138,9 +138,12 @@ const PEdit = () => {
     useEffect(() => {
         axios.post("http://localhost:8787/api/patient/get",{"username":username})
         .then(res => {
+            var birth = new Date(res.data.dob);
+            var current = new Date();
+            var age = current.getYear() - birth.getYear();
             setTphotoURL(res.data.photo_url);
             setTName(res.data.name);
-            setTDOB(res.data.dob);
+            setTDOB(age);
             setTGender(res.data.gender);
             setTBloodGroup(res.data.blood_group);
             setTEmail(res.data.email);
@@ -160,17 +163,17 @@ const PEdit = () => {
         Edit Profile
       </Grid>
         <Grid className={classes.grid2} container justify="center" >
-        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'-0.5% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'20px',width:'30vw',lineHeight:'1.8'}}>
               <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
-              <div>Age: {Tdob}&emsp;&emsp;Email: {Temail}</div>
-              <div>Gender: {Tgender}&emsp;&emsp;Blood Group: {TbloodGroup}</div>
+              <div><b>Age: </b>{Tdob}&emsp;&emsp;<b>Email: </b>{Temail}</div>
+              <div><b>Gender: </b>{Tgender}&emsp;&emsp;<b>Blood Group: </b>{TbloodGroup}</div>
             </Paper>
             
         </Grid>
         <Grid style={{padding:"2%"}} container justify="center" >
-        <Button variant="contained" color="primary" onClick={
+        <Button variant="contained" color="primary" style={{marginBottom:"4%"}} onClick={
                         handleUpdate
                     } >
         Update
@@ -178,11 +181,10 @@ const PEdit = () => {
        </Grid>
        <Grid style={{display:"flex",flexDirection:"column",alignItems:"center",marginBottom:"20vh"}} container>
         <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Photo URL: </Typography>
+            <Typography className={classes.form} style={{marginTop:"-1.5%"}} >Photo URL: </Typography>
             <TextField className={classes.textField}
                     error={photoURLError}
                     id="photo-URL"
-                    label="Photo URL"
                     variant="standard"
                     style={{
                         display: "flex",
@@ -197,11 +199,11 @@ const PEdit = () => {
                 />
         </Grid>
         <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Name: </Typography>
+            <Typography className={classes.form} style={{marginTop:"-1.5%"}}>Name: </Typography>
             <TextField className={classes.textField}
                     error={nameError}
                     id="name"
-                    label="Name"
+                   
                     variant="standard"
                     style={{
                         display: "flex",
@@ -216,11 +218,11 @@ const PEdit = () => {
                 />
         </Grid>
         <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>DoB: </Typography>
+            <Typography className={classes.form} style={{marginTop:"-1.5%"}}>DoB: </Typography>
             <TextField className={classes.textField}
                     error={dobError}
                     id="DOB"
-                    label="DoB"
+                    
                     variant="standard"
                     style={{
                         display: "flex",
@@ -235,11 +237,11 @@ const PEdit = () => {
                 />
         </Grid>
         <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Gender: </Typography>
+            <Typography className={classes.form} style={{marginTop:"-1.5%"}}>Gender: </Typography>
             <TextField className={classes.textField}
                     error={genderError}
                     id="gender"
-                    label="Gender"
+                    
                     variant="standard"
                     style={{
                         display: "flex",
@@ -254,11 +256,11 @@ const PEdit = () => {
                 />
         </Grid>
         <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Blood Group: </Typography>
+            <Typography className={classes.form} style={{marginTop:"-1.5%"}}>Blood Group: </Typography>
             <TextField className={classes.textField}
                     error={bloodGroupError}
                     id="bloodGroup"
-                    label="Blood Group"
+                 
                     variant="standard"
                     style={{
                         display: "flex",
@@ -273,11 +275,11 @@ const PEdit = () => {
                 />
         </Grid>
         <Grid className={classes.grid3} container justify="center">
-            <Typography className={classes.form}>Email: </Typography>
+            <Typography className={classes.form} style={{marginTop:"-1.5%"}}>Email: </Typography>
             <TextField className={classes.textField}
                     error={emailError}
                     id="email"
-                    label="Email"
+                
                     variant="standard"
                     style={{
                         display: "flex",

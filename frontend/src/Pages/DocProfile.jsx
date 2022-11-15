@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 import moment from 'moment';
+import {useNavigate} from 'react-router-dom';
 import {
     AppBar,
     Toolbar,
@@ -112,6 +113,7 @@ function makeToken(length) {
 }
 
 const DocProfile = () => {
+    const navigate = useNavigate();
     const doc_username = window.localStorage.getItem('doc_username');
     const username = window.localStorage.getItem('username');
     const classes = useStyles();
@@ -187,7 +189,8 @@ const DocProfile = () => {
             "doctor": Tname,
             "patient": name,
             "spec": Tspec,
-            "request":0
+            "request":0,
+            "meetlink": "https://brie.fi/ng/"+makeToken(7)
         })
         .then((res)=>{console.log(res)});
         axios.post("http://localhost:8787/api/patientAppointment/createUpdate",
@@ -201,7 +204,10 @@ const DocProfile = () => {
             "doctorUsername": doc_username,
             "appointmentId":[id]
         })
-        .then((res)=>{console.log(res)})
+        .then((res)=>{console.log(res)});
+        alert("Appointment Booked!");
+        navigate("/patientAppointDoctor");
+        
     }
     
     useEffect(() => {
@@ -262,7 +268,7 @@ const DocProfile = () => {
                     (record,index) => (
                         
                           Tbooked[tabIndex][index]==0 && (
-                        <Button variant="contained" style={{border:"1px solid blue",margin:" 2% 5%"}} onClick={() => handleBook(index)}>{record}</Button>)
+                        <Button variant="contained" style={{backgroundColor:"white",margin:" 2% 5%",color:"purple",fontWeight:"bold"}} onClick={() => handleBook(index)}>{record}</Button>)
                          
                              
                     )

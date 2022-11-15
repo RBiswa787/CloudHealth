@@ -153,6 +153,10 @@ const DEdit = () => {
         navigate("/DocEHR")
     }
 
+    const handleJoin = (param) => {
+        window.open(param,"_blank");
+    }
+
     useEffect(() => {
         axios.post("http://localhost:8787/api/doctor/get", {"username": username})
             .then(res => {
@@ -205,11 +209,11 @@ const DEdit = () => {
                             style={{width: '10vw', height: '10vw', margin: '2% 4% 0% 0%'}}/>
 
                     <Paper elevation={0} style={{fontSize: '15px', width: '30vw', lineHeight: '1.8'}}>
-                        <div style={{fontSize: '25px'}}><b>{Tname}</b></div>
-                        <div>{Tqualification} {Tspec}</div>
-                        <div>Experience: {Texperience}</div>
-                        <div>Gender: {Tgender}</div>
-                        <div>Description: {TpublicDescription}</div>
+                    <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
+              <div><b>{Tqualification} {Tspec}</b></div>
+              <div><b>Experience: </b>{Texperience}</div>
+              <div><b>Gender: </b>{Tgender}</div>
+              <div><b>Description: </b><justify>{TpublicDescription}</justify></div>
                     </Paper>
 
                 </Grid>
@@ -222,15 +226,15 @@ const DEdit = () => {
                                     <Typography><b>{record.patient}</b>&emsp;&emsp;&emsp;&emsp;
                                         <b>{record.date}</b>&emsp;&emsp;&emsp;&emsp;
                                         <b>{record.time}</b>&emsp;&emsp;&emsp;&emsp;
-                                    <Button variant="contained" style={{border: "1px solid blue"}}>Join</Button>
+                                    <Button variant="contained" style={{backgroundColor:"white",color:"purple",fontWeight:"bold",marginLeft:"7%",marginRight:"5%"}} onClick={()=>{handleJoin(record.meetlink)}}>Join MEET</Button>
                                     {record.request == 0 && (
-                                        <Button variant="contained" style={{border: "1px solid blue"}} onClick={()=>{handleRequest(record.appointmentId)}}>Request</Button>
+                                        <Button variant="contained" style={{backgroundColor:"white",color:"hotpink",fontWeight:"bold"}} onClick={()=>{handleRequest(record.appointmentId)}}>Request</Button>
                                     )}
                                     {record.request == 1 && (
-                                        <Button variant="contained" style={{border: "1px solid blue"}}>Pending</Button>
+                                        <Button variant="contained" style={{backgroundColor:"white",color:"orange",fontWeight:"bold"}}>Pending</Button>
                                     )}
                                     {record.request == 2 && (
-                                        <Button variant="contained" style={{border: "1px solid blue"}} onClick={()=>{handleView(record.patientUsername)}}>View</Button>
+                                        <Button variant="contained" style={{backgroundColor:"white",color:"lightgreen",fontWeight:"bold"}} onClick={()=>{handleView(record.patientUsername)}}>View</Button>
                                     )}
                                     
                                     </Typography>

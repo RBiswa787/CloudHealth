@@ -127,26 +127,18 @@ const getList = () => (
       <Toolbar className={toolbar}>
           
         {femmecubatorLogo}
-        <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/doctorDash')}}>
+        <div style={{width:"700px",display:"flex",justifyContent:"space-evenly"}}>
+        <Button style = {{color: "white",marginRight: "-2%"}} onClick={() => {navigate('/doctorDash')}}>
           <Typography>Dashboard</Typography>
         </Button>
-        <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {navigate('/doctorEditProfile')}}>
+        <Button style = {{color: "white",marginRight: "-2%"}} onClick={() => {navigate('/doctorEditProfile')}}>
           <Typography>Edit Profile</Typography>
         </Button>
-        <Button style = {{color: "white",marginRight: "-12%"}} onClick={() => {localStorage.setItem('username',null);
+        <Button style = {{color: "white",marginRight: "-2%"}} onClick={() => {localStorage.setItem('username',null);
               localStorage.setItem('isDoctor',null);navigate('/')}}>
           <Typography>Sign Out</Typography>
         </Button>
-        <IconButton onClick={() => setOpen(true)} aria-label="show 17 new notifications" color="inherit">
-            <Badge badgeContent={notifications.length} color="secondary">
-              <NotificationsIcon />
-              
-            </Badge>
-          </IconButton>
-         
-          <Drawer open={open} anchor={"right"} onClose={() => setOpen(false)}>
-                {getList()}
-              </Drawer>
+        </div>
       </Toolbar>
     );
   };

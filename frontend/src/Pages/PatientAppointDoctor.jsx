@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => {
             paddingTop: "10%",
             paddingBottom: "5%",
             fontSize: "3vw",
-            fontFamily:"Times New Roman",
+            fontFamily: "Arvo, serif",
         },
         form: {
             position: "absolute",
@@ -155,12 +155,18 @@ const PatientAppointDoctor = () => {
         console.log(param);
         navigate('/docProfile');
     }
+    const handleJoin = (param) => {
+        window.open(param,"_blank");
+    }
     useEffect(() => {
         axios.post("http://localhost:8787/api/patient/get",{"username":username})
         .then(res => {
+            var birth = new Date(res.data.dob);
+            var current = new Date();
+            var age = current.getYear() - birth.getYear();
             setTphotoURL(res.data.photo_url);
             setTName(res.data.name);
-            setTDOB(res.data.dob);
+            setTDOB(age);
             setTGender(res.data.gender);
             setTBloodGroup(res.data.blood_group);
             setTEmail(res.data.email);
@@ -190,13 +196,14 @@ const PatientAppointDoctor = () => {
     <>
       <Navbar></Navbar>
       <Grid className={classes.grid1} container justify="center" >
-        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'2% 4% 0% 0%'}}/>
+        <Avatar alt="Remy Sharp" src={TphotoURL} style={{width:'10vw',height:'10vw',margin:'-0.5% 4% 0% 0%'}}/>
            
            <Paper elevation={0} style={{fontSize:'15px',width:'30vw',lineHeight:'1.8'}}>
-              <div style={{fontSize:'25px'}}><b>{Tname}</b></div>
-              <div>Age: {Tdob}&emsp;&emsp;Gender: {Tgender}</div>
-              <div>Blood Group: {TbloodGroup}&emsp;&emsp;</div>
-              <div>Email: {Temail}</div>
+           <Paper elevation={0} style={{fontSize:'20px',width:'30vw',lineHeight:'1.8'}}>
+              <div style={{fontSize:'25px',fontFamily: "Arvo, serif",}}><b>{Tname}</b></div>
+              <div><b>Age: </b>{Tdob}&emsp;&emsp;<b>Email: </b>{Temail}</div>
+              <div><b>Gender: </b>{Tgender}&emsp;&emsp;<b>Blood Group: </b>{TbloodGroup}</div>
+            </Paper>
             </Paper>
             
         </Grid>
@@ -206,7 +213,7 @@ const PatientAppointDoctor = () => {
                 upcoming.map((record) => (
                 <Paper className={classes.paper} elevation={5}>
                     <Grid>
-                        <Typography><b>{record.doctor}</b>&emsp;&emsp;&emsp;{record.spec}&emsp;&emsp;&emsp;&emsp;<b>{record.date}</b>&emsp;&emsp;&emsp;&emsp;<b>{record.time}</b>&emsp;&emsp;&emsp;&emsp;<Button variant="contained" style={{border:"1px solid blue"}}>Join</Button></Typography>
+                        <Typography><b>{record.doctor}</b>&emsp;&emsp;&emsp;{record.spec}&emsp;&emsp;&emsp;&emsp;<b>{record.date}</b>&emsp;&emsp;&emsp;&emsp;<b>{record.time}</b>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<Button variant="contained" style={{backgroundColor:"white",color:"purple",fontWeight:"bold"}} onClick={()=>handleJoin(record.meetlink)}>Join MEET</Button></Typography>
                         
                     </Grid>
                 </Paper>
@@ -237,7 +244,7 @@ const PatientAppointDoctor = () => {
                     <Paper className={classes.paper2} elevation={5}>
                     <Grid style={{fontSize:'18px',display:"flex",flexDirection:"row"}}>
                     <img alt="Remy Sharp" src={post.photo_url} style={{width:'6vw',height:'5vw',marginRight:'5%',borderRadius:'10px'}}/>
-                    <Paper elevation={0} style={{marginTop:"2%"}}>{post.name}&emsp;&emsp;&emsp;&emsp;{post.specialisation}<Button variant="contained" style={{border:"1px solid blue",position:"absolute",left:"75%"}} onClick= {() => handleView(post.username)}>View</Button>
+                    <Paper elevation={0} style={{marginTop:"2%"}}>{post.name}&emsp;&emsp;&emsp;&emsp;{post.specialisation}<Button variant="contained" style={{position:"absolute",left:"75%",backgroundColor:"white",color:"purple"}} onClick= {() => handleView(post.username)}>View</Button>
                     </Paper>
                         
                     </Grid>

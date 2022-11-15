@@ -13,7 +13,8 @@ module.exports = mongoose => {
             patient: {type: String},
             doctor: {type: String},
             spec: {type: String},
-            request: {type: Number}
+            request: {type: Number},
+            meetlink: {type: String}
         }
     );
 

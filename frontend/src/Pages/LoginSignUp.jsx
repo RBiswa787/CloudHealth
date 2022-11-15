@@ -19,11 +19,13 @@ const useStyles = makeStyles((theme) => ({
         width: "35%",
         borderRadius: 30,
         // justifyContent: "center",
-        backgroundColor: "#DFF6FF",
+        backgroundColor: "white",
         alignItems: "center",
-        marginLeft: "5%",
-        marginRight: "5%",
-        marginTop: "5%",
+        marginLeft: "4%",
+        marginRight: "4%",
+        marginTop: "2%",
+        border:"2px solid",
+        
     },
     heading: {
         display: "flex",
@@ -310,7 +312,7 @@ const LoginSignUp = () => {
             style={{
                 height: height,
                 width: width,
-                backgroundColor: "#47B5FF",
+                backgroundColor: "lightblue",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
@@ -369,7 +371,7 @@ const LoginSignUp = () => {
                     LOGIN
                 </Button>
             </Paper>
-            <Paper className={classes.paper} elevation={20}>
+            <Paper className={classes.paper} style={{marginLeft:"-1%"}} elevation={20}>
                 <Typography className={classes.heading}>SIGN UP</Typography>
                 <TextField
                     id="sign-name"

@@ -16,7 +16,8 @@ exports.create = (req, res) => {
         patient: req.body.patient,
         doctor: req.body.doctor,
         spec: req.body.spec,
-        request: req.body.request
+        request: req.body.request,
+        meetlink: req.body.meetlink
     });
 
     Appointment.findOne({appointmentId: appointment.appointmentId})

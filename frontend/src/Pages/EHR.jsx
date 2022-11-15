@@ -115,9 +115,6 @@ const EHR = () => {
     <Navbar></Navbar>
       <Grid className={classes.grid1} container justify="center" >
         <div>Electronic Health Record</div>
-        <div style={{fontSize:"18px"}}>
-            EHR #: 13214
-        </div>
       </Grid>
       <Grid className={classes.grid2} container>
             <div>Upload New Document</div>               
@@ -170,15 +167,15 @@ const EHR = () => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center"><b>Notes</b></TableCell>
-            <TableCell align="center"><b>View</b></TableCell>
+          <TableCell align="center"><span style={{fontSize:18}}><b>Notes</b></span></TableCell>
+            <TableCell align="center"><span style={{fontSize:18}}><b>Document</b></span></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {EHRdatum.map((row) => (
             <TableRow>
               <TableCell align="center">{row.description}</TableCell>
-              <TableCell align="center"><Button onClick={ () => handleGo(row.link)}>Open</Button></TableCell>
+              <TableCell align="center"><Button onClick={ () => handleGo(row.link)}><span style={{color:"purple",fontWeight:"bold"}}>Open</span></Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
