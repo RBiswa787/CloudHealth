@@ -92,8 +92,8 @@ This system aims to streamline the appointment booking process, enhance doctor-p
 
 ## Contributors
 
-@RBiswa787
-@Anas-Ahmad-Siddiqui
+*@RBiswa787
+*@Anas-Ahmad-Siddiqui
 
 ## License
 
