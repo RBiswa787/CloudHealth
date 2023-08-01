@@ -1,4 +1,4 @@
-# HEALTHCONNECT - REMOTE HEALTHCARE
+# MediConnect - REMOTE HEALTHCARE
 
 A robust and scalable remote health care platform utilizing a microservices architecture using React.js, Node.js, and MongoDB. Containerized using Docker. Deployed to AWS EC2 instance. Integrated AWS API Gateway as a reverse proxy to enhance security and manage incoming requests.
 
